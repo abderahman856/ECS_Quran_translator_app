@@ -1,0 +1,10 @@
+# Ignore dependencies in all folders
+**/node_modules/
+
+# Ignore build outputs in all folders
+**/dist/
+**/build/
+
+# Ignore environment secrets
+.env
+.env.*

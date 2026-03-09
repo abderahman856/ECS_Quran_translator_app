@@ -1,0 +1,11 @@
+{
+  "dependencies": {
+    "cross-spawn": "^7.0.6",
+    "glob": "^13.0.6",
+    "minimatch": "^10.2.4",
+    "tar": "^7.5.9"
+  },
+  "devDependencies": {
+    "prettier": "^3.8.1"
+  }
+}

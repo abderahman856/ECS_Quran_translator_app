@@ -1,0 +1,31 @@
+terraform {
+  required_version = ">= 1.5.0"
+
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = "~> 5.0"
+    }
+    cloudflare = {
+      source  = "cloudflare/cloudflare"
+      version = "~> 4.0"
+    }
+  }
+
+  backend "s3" {
+    bucket               = "quran-app-dev-terraform-state"
+    key                  = "terraform.tfstate"
+    region               = "us-east-1"
+    encrypt              = true
+    use_lockfile         = true
+    workspace_key_prefix = "quran-app"
+  }
+}
+
+provider "aws" {
+  region = var.aws_region
+}
+
+provider "cloudflare" {
+  api_token = var.cloudflare_api_token
+}
