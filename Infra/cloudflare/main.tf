@@ -15,7 +15,7 @@ resource "cloudflare_record" "www" {
   proxied = false
   ttl     = 1
 
-   timeouts {
+  timeouts {
     create = "5m"
     update = "5m"
   }
@@ -29,7 +29,7 @@ resource "cloudflare_record" "api" {
   proxied = false
   ttl     = 1
 
-    timeouts {
+  timeouts {
     create = "5m"
     update = "5m"
   }

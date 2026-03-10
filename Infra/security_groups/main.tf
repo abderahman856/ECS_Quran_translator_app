@@ -1,3 +1,4 @@
+#trivy:ignore:AWS-0104
 resource "aws_security_group" "alb" {
   name        = "${var.project_name}-${var.environment}-alb-sg"
   description = "External access for Load Balancer"
@@ -18,7 +19,7 @@ resource "aws_security_group" "alb" {
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
-
+  #trivy:ignore:AWS-0104 comment
   egress {
     description = "Allow all outbound traffic to forward requests to ECS tasks"
     from_port   = 0

@@ -1,6 +1,6 @@
 output "certificate_arn" {
   description = "The ARN of the validated certificate. Used by ALB and CloudFront."
-  value = aws_acm_certificate_validation.cert.certificate_arn
+  value       = aws_acm_certificate_validation.cert.certificate_arn
 }
 
 output "validation_record_name" {
