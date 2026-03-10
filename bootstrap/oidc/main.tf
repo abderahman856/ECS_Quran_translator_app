@@ -110,7 +110,6 @@ resource "aws_iam_policy" "github_actions" {
           "ecr:PutImageTagMutability",
           "ecr:TagResource",
           "ecr:ListTagsForResource",   # ← add this
-
         ]
         Resource = "*"
       },
