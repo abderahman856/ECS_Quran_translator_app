@@ -31,7 +31,6 @@ jobs:
     name: Terraform Destroy (${{ github.event.inputs.environment }})
     runs-on: ubuntu-latest
 
-    # Prod requires manual approval from GitHub Environments
     environment: ${{ github.event.inputs.environment == 'prod' && 'production' || 'development' }}
 
     steps:
@@ -70,10 +69,12 @@ jobs:
           key: terraform-${{ hashFiles('Infra/.terraform.lock.hcl') }}
           restore-keys: terraform-
 
-      # ── 5. Terraform Init ─────────────────────────────────────────────────
+      # ── 5. Terraform Init — separate state per environment ────────────────
       - name: Terraform Init
         working-directory: Infra
-        run: terraform init
+        run: |
+          terraform init \
+            -backend-config="key=quran-app/${{ github.event.inputs.environment }}/terraform.tfstate"
 
       # ── 6. Create tfvars file from secrets ────────────────────────────────
       - name: Create tfvars file
@@ -120,8 +121,6 @@ jobs:
           fi
 
       # ── 7. Empty S3 buckets before destroy ────────────────────────────────
-      # CloudFront writes logs to cf-logs bucket even during destroy,
-      # so we must empty ALL buckets right before terraform destroy runs
       - name: Empty S3 buckets
         run: |
           ENV="${{ github.event.inputs.environment }}"
@@ -134,12 +133,10 @@ jobs:
 
             echo "--- Emptying s3://$BUCKET ---"
 
-            # Remove all objects
             aws s3 rm s3://$BUCKET --recursive 2>/dev/null \
               && echo "Objects deleted" \
               || echo "Bucket $BUCKET not found or already empty, skipping"
 
-            # Remove versioned objects (if versioning enabled)
             VERSIONS=$(aws s3api list-object-versions \
               --bucket $BUCKET \
               --query 'Versions[].{Key:Key,VersionId:VersionId}' \
@@ -151,7 +148,6 @@ jobs:
               echo "Versioned objects deleted"
             fi
 
-            # Remove delete markers
             MARKERS=$(aws s3api list-object-versions \
               --bucket $BUCKET \
               --query 'DeleteMarkers[].{Key:Key,VersionId:VersionId}' \

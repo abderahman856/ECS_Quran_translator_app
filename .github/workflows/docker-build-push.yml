@@ -138,14 +138,52 @@ jobs:
             --services "$SERVICE"
           echo "✅ ECS deployment complete"
 
-      # ── 9. Summary ────────────────────────────────────────────────────────
+      # ── 9. Post deploy health check ───────────────────────────────────────
+      - name: Backend health check
+        run: |
+          ENV="${{ github.event.inputs.environment || 'dev' }}"
+
+          if [ "$ENV" == "prod" ]; then
+            HEALTH_URL="https://api.baashe.uk/health"
+          else
+            HEALTH_URL="https://api.dev.baashe.uk/health"
+          fi
+
+          echo "🔍 Checking backend health at $HEALTH_URL"
+
+          # Retry up to 5 times with 15s delay — CloudFront/ALB may need a moment
+          for i in 1 2 3 4 5; do
+            STATUS=$(curl -s -o /dev/null -w "%{http_code}" "$HEALTH_URL" || echo "000")
+            echo "Attempt $i — HTTP $STATUS"
+
+            if [ "$STATUS" == "200" ]; then
+              echo "✅ Backend is healthy!"
+              exit 0
+            fi
+
+            echo "⏳ Not ready yet, retrying in 15s..."
+            sleep 15
+          done
+
+          echo "❌ Backend health check failed after 5 attempts"
+          exit 1
+
+      # ── 10. Summary ───────────────────────────────────────────────────────
       - name: Deployment summary
         run: |
           ENV="${{ github.event.inputs.environment || 'dev' }}"
+
+          if [ "$ENV" == "prod" ]; then
+            HEALTH_URL="https://api.baashe.uk/health"
+          else
+            HEALTH_URL="https://api.dev.baashe.uk/health"
+          fi
+
           echo "## 🚀 Docker Deployment Summary" >> $GITHUB_STEP_SUMMARY
           echo "| Field | Value |" >> $GITHUB_STEP_SUMMARY
           echo "|-------|-------|" >> $GITHUB_STEP_SUMMARY
           echo "| Environment | $ENV |" >> $GITHUB_STEP_SUMMARY
           echo "| Image Tag | ${{ steps.meta.outputs.image_tag }} |" >> $GITHUB_STEP_SUMMARY
           echo "| Image URI | ${{ steps.meta.outputs.image_uri }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| Health Check | $HEALTH_URL ✅ |" >> $GITHUB_STEP_SUMMARY
           echo "| Commit | ${{ github.sha }} |" >> $GITHUB_STEP_SUMMARY

@@ -97,10 +97,12 @@ jobs:
           key: terraform-${{ hashFiles('Infra/.terraform.lock.hcl') }}
           restore-keys: terraform-
 
-      # ── 5. Terraform Init ─────────────────────────────────────────────────
+      # ── 5. Terraform Init — separate state per environment ────────────────
       - name: Terraform Init
         working-directory: Infra
-        run: terraform init
+        run: |
+          terraform init \
+            -backend-config="key=quran-app/${{ needs.setup.outputs.environment }}/terraform.tfstate"
 
       # ── 6. Create tfvars file from GitHub Secrets ─────────────────────────
       - name: Create tfvars file
