@@ -87,6 +87,8 @@ jobs:
         uses: hashicorp/setup-terraform@v3
         with:
           terraform_version: ${{ env.TF_VERSION }}
+          terraform_wrapper: false    
+
 
       # ── 4. Cache Terraform providers ──────────────────────────────────────
       - name: Cache Terraform providers
