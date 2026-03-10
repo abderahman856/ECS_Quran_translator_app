@@ -120,7 +120,8 @@ jobs:
           fi
 
       # ── 7. Empty S3 buckets before destroy ────────────────────────────────
-      # Terraform cannot destroy non-empty S3 buckets
+      # CloudFront writes logs to cf-logs bucket even during destroy,
+      # so we must empty ALL buckets right before terraform destroy runs
       - name: Empty S3 buckets
         run: |
           ENV="${{ github.event.inputs.environment }}"
@@ -130,13 +131,63 @@ jobs:
             "quran-app-${ENV}-frontend" \
             "quran-app-${ENV}-frontend-logs" \
             "quran-app-${ENV}-cf-logs"; do
-            echo "Emptying s3://$BUCKET"
-            aws s3 rm s3://$BUCKET --recursive 2>/dev/null || echo "Bucket $BUCKET not found or already empty"
+
+            echo "--- Emptying s3://$BUCKET ---"
+
+            # Remove all objects
+            aws s3 rm s3://$BUCKET --recursive 2>/dev/null \
+              && echo "Objects deleted" \
+              || echo "Bucket $BUCKET not found or already empty, skipping"
+
+            # Remove versioned objects (if versioning enabled)
+            VERSIONS=$(aws s3api list-object-versions \
+              --bucket $BUCKET \
+              --query 'Versions[].{Key:Key,VersionId:VersionId}' \
+              --output json 2>/dev/null || echo "[]")
+
+            if [ "$VERSIONS" != "[]" ] && [ -n "$VERSIONS" ]; then
+              echo "$VERSIONS" | jq '{Objects: .}' | \
+                aws s3api delete-objects --bucket $BUCKET --delete file:///dev/stdin 2>/dev/null || true
+              echo "Versioned objects deleted"
+            fi
+
+            # Remove delete markers
+            MARKERS=$(aws s3api list-object-versions \
+              --bucket $BUCKET \
+              --query 'DeleteMarkers[].{Key:Key,VersionId:VersionId}' \
+              --output json 2>/dev/null || echo "[]")
+
+            if [ "$MARKERS" != "[]" ] && [ -n "$MARKERS" ]; then
+              echo "$MARKERS" | jq '{Objects: .}' | \
+                aws s3api delete-objects --bucket $BUCKET --delete file:///dev/stdin 2>/dev/null || true
+              echo "Delete markers removed"
+            fi
+
           done
 
-          echo "✅ S3 buckets emptied"
+          echo "✅ All S3 buckets emptied"
 
-      # ── 8. Terraform Destroy ──────────────────────────────────────────────
+      # ── 8. Empty ECR repository ───────────────────────────────────────────
+      - name: Empty ECR repository
+        run: |
+          REPO="quran-app-backend"
+          echo "🗑️ Deleting all images from ECR $REPO..."
+
+          IMAGE_IDS=$(aws ecr list-images \
+            --repository-name $REPO \
+            --query 'imageIds[*]' \
+            --output json 2>/dev/null || echo "[]")
+
+          if [ "$IMAGE_IDS" != "[]" ] && [ -n "$IMAGE_IDS" ]; then
+            aws ecr batch-delete-image \
+              --repository-name $REPO \
+              --image-ids "$IMAGE_IDS"
+            echo "✅ ECR images deleted"
+          else
+            echo "ECR already empty or not found"
+          fi
+
+      # ── 9. Terraform Destroy ──────────────────────────────────────────────
       - name: Terraform Destroy
         working-directory: Infra
         run: |
@@ -145,7 +196,7 @@ jobs:
             -no-color \
             -auto-approve
 
-      # ── 9. Summary ────────────────────────────────────────────────────────
+      # ── 10. Summary ───────────────────────────────────────────────────────
       - name: Destroy summary
         run: |
           ENV="${{ github.event.inputs.environment }}"
