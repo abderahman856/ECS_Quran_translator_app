@@ -1,0 +1,141 @@
+# .github/workflows/terraform-destroy-plan.yml
+# Manual trigger only — shows what will be destroyed before committing
+# Always run this before terraform-destroy-apply.yml
+
+name: Terraform Destroy Plan
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Environment to destroy'
+        required: true
+        type: choice
+        options:
+          - dev
+          - prod
+
+permissions:
+  id-token: write
+  contents: read
+
+env:
+  TF_VERSION: "1.10.3"
+
+jobs:
+  destroy-plan:
+    name: Destroy Plan (${{ github.event.inputs.environment }})
+    runs-on: ubuntu-latest
+
+    steps:
+      # ── 1. Checkout code ─────────────────────────────────────────────────
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # ── 2. Configure AWS via OIDC ─────────────────────────────────────────
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      # ── 3. Setup Terraform ────────────────────────────────────────────────
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: ${{ env.TF_VERSION }}
+          terraform_wrapper: false
+
+      # ── 4. Cache Terraform providers ──────────────────────────────────────
+      - name: Cache Terraform providers
+        uses: actions/cache@v4
+        with:
+          path: Infra/.terraform
+          key: terraform-${{ hashFiles('Infra/.terraform.lock.hcl') }}
+          restore-keys: terraform-
+
+      # ── 5. Terraform Init ─────────────────────────────────────────────────
+      - name: Terraform Init
+        working-directory: Infra
+        run: terraform init
+
+      # ── 6. Create tfvars file from secrets ────────────────────────────────
+      - name: Create tfvars file
+        working-directory: Infra
+        run: |
+          ENV="${{ github.event.inputs.environment }}"
+
+          if [ "$ENV" == "prod" ]; then
+            cat > envs/prod.tfvars << EOF
+          environment                     = "prod"
+          project_name                    = "quran-app"
+          aws_region                      = "${{ secrets.AWS_REGION }}"
+          domain_name                     = "${{ secrets.PROD_DOMAIN_NAME }}"
+          cloudflare_zone_id              = "${{ secrets.CLOUDFLARE_ZONE_ID }}"
+          cloudflare_api_token            = "${{ secrets.CLOUDFLARE_API_TOKEN }}"
+          container_image                 = "${{ secrets.PROD_CONTAINER_IMAGE }}"
+          vpc_cidr                        = "10.2.0.0/16"
+          private_subnet_cidrs            = ["10.2.10.0/24", "10.2.11.0/24"]
+          public_subnet_cidrs             = ["10.2.0.0/24", "10.2.1.0/24"]
+          availability_zones              = ["us-east-1a", "us-east-1b"]
+          image_tag_mutability            = "IMMUTABLE"
+          untainted_image_retention_count = 5
+          log_retention_days              = 30
+          bucket_name                     = "frontend"
+          EOF
+          else
+            cat > envs/dev.tfvars << EOF
+          environment                     = "dev"
+          project_name                    = "quran-app"
+          aws_region                      = "${{ secrets.AWS_REGION }}"
+          domain_name                     = "${{ secrets.DEV_DOMAIN_NAME }}"
+          cloudflare_zone_id              = "${{ secrets.CLOUDFLARE_ZONE_ID }}"
+          cloudflare_api_token            = "${{ secrets.CLOUDFLARE_API_TOKEN }}"
+          container_image                 = "${{ secrets.DEV_CONTAINER_IMAGE }}"
+          vpc_cidr                        = "10.0.0.0/16"
+          private_subnet_cidrs            = ["10.0.10.0/24", "10.0.11.0/24"]
+          public_subnet_cidrs             = ["10.0.0.0/24", "10.0.1.0/24"]
+          availability_zones              = ["us-east-1a", "us-east-1b"]
+          image_tag_mutability            = "MUTABLE"
+          untainted_image_retention_count = 3
+          log_retention_days              = 7
+          bucket_name                     = "frontend"
+          EOF
+          fi
+
+      # ── 7. Terraform Destroy Plan ─────────────────────────────────────────
+      - name: Terraform Destroy Plan
+        working-directory: Infra
+        run: |
+          set +e
+          terraform plan \
+            -destroy \
+            -var-file=envs/${{ github.event.inputs.environment }}.tfvars \
+            -no-color \
+            -out=destroy-tfplan
+          EXIT_CODE=$?
+          if [ $EXIT_CODE -eq 1 ]; then
+            echo "❌ Terraform destroy plan failed"
+            exit 1
+          fi
+          exit 0
+
+      # ── 8. Upload destroy plan artifact ───────────────────────────────────
+      - name: Upload destroy plan artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: destroy-tfplan-${{ github.event.inputs.environment }}
+          path: Infra/destroy-tfplan
+          retention-days: 1
+
+      # ── 9. Summary ────────────────────────────────────────────────────────
+      - name: Destroy plan summary
+        run: |
+          ENV="${{ github.event.inputs.environment }}"
+          echo "## 💣 Destroy Plan Summary" >> $GITHUB_STEP_SUMMARY
+          echo "| Field | Value |" >> $GITHUB_STEP_SUMMARY
+          echo "|-------|-------|" >> $GITHUB_STEP_SUMMARY
+          echo "| Environment | $ENV |" >> $GITHUB_STEP_SUMMARY
+          echo "| Status | Plan complete - review before applying |" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "⚠️ **Review the plan above before running terraform-destroy-apply**" >> $GITHUB_STEP_SUMMARY
