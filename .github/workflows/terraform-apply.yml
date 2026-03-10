@@ -151,13 +151,11 @@ jobs:
       # ── 7. Terraform Plan ─────────────────────────────────────────────────
       - name: Terraform Plan
         working-directory: Infra
-        id: plan
         run: |
           terraform plan \
             -var-file=envs/${{ needs.setup.outputs.environment }}.tfvars \
             -no-color \
-            -out=tfplan
-        continue-on-error: true
+            -out=tfplan || true
 
       - name: Check plan exit code
         run: |
