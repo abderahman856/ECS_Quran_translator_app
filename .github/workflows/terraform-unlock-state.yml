@@ -1,0 +1,78 @@
+# .github/workflows/terraform-unlock-state.yml
+# Manual trigger only — releases a stuck Terraform state lock
+# Use when you see: "Error acquiring the state lock"
+
+name: Terraform Unlock State
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Environment with stuck lock'
+        required: true
+        type: choice
+        options:
+          - dev
+          - prod
+      lock_id:
+        description: 'Lock ID from the error message (e.g. 12345678-abcd-...)'
+        required: true
+        type: string
+
+permissions:
+  id-token: write
+  contents: read
+
+env:
+  TF_VERSION: "1.10.3"
+
+jobs:
+  unlock:
+    name: Unlock State (${{ github.event.inputs.environment }})
+    runs-on: ubuntu-latest
+
+    steps:
+      # ── 1. Checkout code ─────────────────────────────────────────────────
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # ── 2. Configure AWS via OIDC ─────────────────────────────────────────
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      # ── 3. Setup Terraform ────────────────────────────────────────────────
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: ${{ env.TF_VERSION }}
+          terraform_wrapper: false
+
+      # ── 4. Terraform Init ─────────────────────────────────────────────────
+      - name: Terraform Init
+        working-directory: Infra
+        run: terraform init
+
+      # ── 5. Unlock state ───────────────────────────────────────────────────
+      - name: Terraform Force Unlock
+        working-directory: Infra
+        run: |
+          echo "🔓 Unlocking Terraform state for ${{ github.event.inputs.environment }}"
+          echo "🔑 Lock ID: ${{ github.event.inputs.lock_id }}"
+
+          terraform force-unlock -force ${{ github.event.inputs.lock_id }}
+
+          echo "✅ State unlocked successfully"
+
+      # ── 6. Summary ────────────────────────────────────────────────────────
+      - name: Unlock summary
+        run: |
+          echo "## 🔓 State Unlock Summary" >> $GITHUB_STEP_SUMMARY
+          echo "| Field | Value |" >> $GITHUB_STEP_SUMMARY
+          echo "|-------|-------|" >> $GITHUB_STEP_SUMMARY
+          echo "| Environment | ${{ github.event.inputs.environment }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| Lock ID | ${{ github.event.inputs.lock_id }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| Unlocked by | ${{ github.actor }} |" >> $GITHUB_STEP_SUMMARY
+          echo "| Status | ✅ Unlocked |" >> $GITHUB_STEP_SUMMARY
