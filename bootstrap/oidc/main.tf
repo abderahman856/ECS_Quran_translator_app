@@ -109,7 +109,9 @@ resource "aws_iam_policy" "github_actions" {
           "ecr:PutLifecyclePolicy",
           "ecr:PutImageTagMutability",
           "ecr:TagResource",
-          "ecr:ListTagsForResource",   # ← add this
+          "ecr:ListTagsForResource",
+          "ecr:GetLifecyclePolicy",
+          "ecr:PutLifecyclePolicy", # ← add this
         ]
         Resource = "*"
       },
@@ -137,6 +139,8 @@ resource "aws_iam_policy" "github_actions" {
           "s3:GetBucketLogging",
           "s3:PutLifecycleConfiguration",
           "s3:GetLifecycleConfiguration",
+          "s3:GetBucketAcl",
+          "s3:GetBucketTagging",
           "s3:GetBucketAcl",
         ]
         Resource = "*"
