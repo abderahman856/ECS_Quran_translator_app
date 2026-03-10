@@ -6,7 +6,7 @@ resource "aws_ecr_repository" "repo" {
   image_tag_mutability = var.image_tag_mutability
 
   encryption_configuration {
-    encryption_type = "KMS"
+    encryption_type = "AES256"
   }
 
   image_scanning_configuration {
