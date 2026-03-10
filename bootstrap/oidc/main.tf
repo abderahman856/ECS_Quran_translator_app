@@ -109,43 +109,16 @@ resource "aws_iam_policy" "github_actions" {
           "ecr:GetLifecyclePolicy",
           "ecr:PutLifecyclePolicy",
           "ecr:DeleteLifecyclePolicy",
-          "ecr:DescribeImages", # ← add this
+          "ecr:DescribeImages"
         ]
         Resource = "*"
       },
       # ── S3 ───────────────────────────────────────────────────────────────
+      # Using s3:* to avoid permission whack-a-mole during Terraform refreshes
       {
-        Sid    = "S3Access"
-        Effect = "Allow"
-        Action = [
-          "s3:GetBucketAcl",
-          "s3:GetBucketCORS",
-          "s3:GetBucketLocation",
-          "s3:GetBucketLogging",
-          "s3:GetBucketObjectLockConfiguration",
-          "s3:GetBucketPolicy",
-          "s3:GetBucketPolicyStatus",
-          "s3:GetBucketPublicAccessBlock",
-          "s3:GetBucketRequestPayment",
-          "s3:GetBucketTagging",
-          "s3:GetBucketVersioning",
-          "s3:GetBucketWebsite",
-          "s3:GetEncryptionConfiguration",
-          "s3:GetLifecycleConfiguration",
-          "s3:GetObject",
-          "s3:GetReplicationConfiguration",
-          "s3:ListBucket",
-          "s3:PutBucketAcl",
-          "s3:PutBucketLogging",
-          "s3:PutBucketPolicy",
-          "s3:PutBucketPublicAccessBlock",
-          "s3:PutBucketTagging",
-          "s3:PutBucketVersioning",
-          "s3:PutEncryptionConfiguration",
-          "s3:PutObject",
-          "s3:DeleteObject",
-          "s3:DeleteBucket",
-        ]
+        Sid      = "S3Access"
+        Effect   = "Allow"
+        Action   = ["s3:*"]
         Resource = "*"
       },
       # ── CloudFront ────────────────────────────────────────────────────────
