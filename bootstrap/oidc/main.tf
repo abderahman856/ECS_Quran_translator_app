@@ -136,7 +136,8 @@ resource "aws_iam_policy" "github_actions" {
           "s3:PutBucketLogging",
           "s3:GetBucketLogging",
           "s3:PutLifecycleConfiguration",
-          "s3:GetLifecycleConfiguration"
+          "s3:GetLifecycleConfiguration",
+          "s3:GetBucketAcl",
         ]
         Resource = "*"
       },
