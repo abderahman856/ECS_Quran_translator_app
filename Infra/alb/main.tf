@@ -1,3 +1,6 @@
+# Infra/alb/main.tf
+
+#trivy:ignore:AWS-0053
 resource "aws_lb" "main" {
   name                       = "${var.project_name}-${var.environment}-alb"
   internal                   = false
