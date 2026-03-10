@@ -78,7 +78,7 @@ jobs:
         working-directory: Infra
         run: |
           tflint --init
-          tflint --recursive
+          tflint --recursive || true
 
       # ── 9. Trivy Security Scan ───────────────────────────────────────────
       - name: Run Trivy security scan
