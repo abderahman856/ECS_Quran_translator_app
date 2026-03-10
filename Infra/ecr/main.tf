@@ -1,12 +1,12 @@
 resource "aws_ecr_repository" "repo" {
   for_each     = var.repository_names
-  force_delete = true # ← add this
+  force_delete = true
 
   name                 = "${var.project_name}-${each.value}"
   image_tag_mutability = var.image_tag_mutability
 
   encryption_configuration {
-    encryption_type = "KMS"
+    encryption_type = "AES256"
   }
 
   image_scanning_configuration {
