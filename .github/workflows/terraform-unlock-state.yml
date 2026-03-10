@@ -50,10 +50,12 @@ jobs:
           terraform_version: ${{ env.TF_VERSION }}
           terraform_wrapper: false
 
-      # ── 4. Terraform Init ─────────────────────────────────────────────────
+      # ── 4. Terraform Init — separate state per environment ────────────────
       - name: Terraform Init
         working-directory: Infra
-        run: terraform init
+        run: |
+          terraform init \
+            -backend-config="key=quran-app/${{ github.event.inputs.environment }}/terraform.tfstate"
 
       # ── 5. Unlock state ───────────────────────────────────────────────────
       - name: Terraform Force Unlock
