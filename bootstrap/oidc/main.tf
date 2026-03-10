@@ -108,7 +108,9 @@ resource "aws_iam_policy" "github_actions" {
           "ecr:BatchDeleteImage",
           "ecr:PutLifecyclePolicy",
           "ecr:PutImageTagMutability",
-          "ecr:TagResource"
+          "ecr:TagResource",
+          "ecr:ListTagsForResource",   # ← add this
+
         ]
         Resource = "*"
       },
