@@ -87,8 +87,7 @@ jobs:
         uses: hashicorp/setup-terraform@v3
         with:
           terraform_version: ${{ env.TF_VERSION }}
-          terraform_wrapper: false    
-
+          terraform_wrapper: false
 
       # ── 4. Cache Terraform providers ──────────────────────────────────────
       - name: Cache Terraform providers
@@ -104,7 +103,6 @@ jobs:
         run: terraform init
 
       # ── 6. Create tfvars file from GitHub Secrets ─────────────────────────
-      # tfvars are gitignored — we recreate them in the pipeline from secrets
       - name: Create tfvars file
         working-directory: Infra
         run: |
@@ -112,39 +110,39 @@ jobs:
 
           if [ "$ENV" == "prod" ]; then
             cat > envs/prod.tfvars << EOF
-          environment                    = "prod"
-          project_name                   = "quran-app"
-          aws_region                     = "${{ secrets.AWS_REGION }}"
-          domain_name                    = "${{ secrets.PROD_DOMAIN_NAME }}"
-          cloudflare_zone_id             = "${{ secrets.CLOUDFLARE_ZONE_ID }}"
-          cloudflare_api_token           = "${{ secrets.CLOUDFLARE_API_TOKEN }}"
-          container_image                = "${{ secrets.PROD_CONTAINER_IMAGE }}"
-          vpc_cidr                       = "10.2.0.0/16"
-          private_subnet_cidrs           = ["10.2.10.0/24", "10.2.11.0/24"]
-          public_subnet_cidrs            = ["10.2.0.0/24", "10.2.1.0/24"]
-          availability_zones             = ["us-east-1a", "us-east-1b"]
-          image_tag_mutability           = "IMMUTABLE"
+          environment                     = "prod"
+          project_name                    = "quran-app"
+          aws_region                      = "${{ secrets.AWS_REGION }}"
+          domain_name                     = "${{ secrets.PROD_DOMAIN_NAME }}"
+          cloudflare_zone_id              = "${{ secrets.CLOUDFLARE_ZONE_ID }}"
+          cloudflare_api_token            = "${{ secrets.CLOUDFLARE_API_TOKEN }}"
+          container_image                 = "${{ secrets.PROD_CONTAINER_IMAGE }}"
+          vpc_cidr                        = "10.2.0.0/16"
+          private_subnet_cidrs            = ["10.2.10.0/24", "10.2.11.0/24"]
+          public_subnet_cidrs             = ["10.2.0.0/24", "10.2.1.0/24"]
+          availability_zones              = ["us-east-1a", "us-east-1b"]
+          image_tag_mutability            = "IMMUTABLE"
           untainted_image_retention_count = 5
-          log_retention_days             = 30
-          bucket_name                    = "frontend"
+          log_retention_days              = 30
+          bucket_name                     = "frontend"
           EOF
           else
             cat > envs/dev.tfvars << EOF
-          environment                    = "dev"
-          project_name                   = "quran-app"
-          aws_region                     = "${{ secrets.AWS_REGION }}"
-          domain_name                    = "${{ secrets.DEV_DOMAIN_NAME }}"
-          cloudflare_zone_id             = "${{ secrets.CLOUDFLARE_ZONE_ID }}"
-          cloudflare_api_token           = "${{ secrets.CLOUDFLARE_API_TOKEN }}"
-          container_image                = "${{ secrets.DEV_CONTAINER_IMAGE }}"
-          vpc_cidr                       = "10.0.0.0/16"
-          private_subnet_cidrs           = ["10.0.10.0/24", "10.0.11.0/24"]
-          public_subnet_cidrs            = ["10.0.0.0/24", "10.0.1.0/24"]
-          availability_zones             = ["us-east-1a", "us-east-1b"]
-          image_tag_mutability           = "MUTABLE"
+          environment                     = "dev"
+          project_name                    = "quran-app"
+          aws_region                      = "${{ secrets.AWS_REGION }}"
+          domain_name                     = "${{ secrets.DEV_DOMAIN_NAME }}"
+          cloudflare_zone_id              = "${{ secrets.CLOUDFLARE_ZONE_ID }}"
+          cloudflare_api_token            = "${{ secrets.CLOUDFLARE_API_TOKEN }}"
+          container_image                 = "${{ secrets.DEV_CONTAINER_IMAGE }}"
+          vpc_cidr                        = "10.0.0.0/16"
+          private_subnet_cidrs            = ["10.0.10.0/24", "10.0.11.0/24"]
+          public_subnet_cidrs             = ["10.0.0.0/24", "10.0.1.0/24"]
+          availability_zones              = ["us-east-1a", "us-east-1b"]
+          image_tag_mutability            = "MUTABLE"
           untainted_image_retention_count = 3
-          log_retention_days             = 7
-          bucket_name                    = "frontend"
+          log_retention_days              = 7
+          bucket_name                     = "frontend"
           EOF
           fi
 
@@ -152,18 +150,17 @@ jobs:
       - name: Terraform Plan
         working-directory: Infra
         run: |
+          set +e
           terraform plan \
             -var-file=envs/${{ needs.setup.outputs.environment }}.tfvars \
             -no-color \
-            -out=tfplan || true
-
-      - name: Check plan exit code
-        run: |
-          if [ "${{ steps.plan.outcome }}" == "failure" ]; then
-            echo "❌ Terraform plan failed"
+            -out=tfplan
+          EXIT_CODE=$?
+          if [ $EXIT_CODE -eq 1 ]; then
+            echo "❌ Terraform plan failed with error"
             exit 1
           fi
-
+          exit 0
 
       # ── 8. Upload tfplan artifact ─────────────────────────────────────────
       - name: Upload Terraform plan artifact
@@ -176,10 +173,7 @@ jobs:
       # ── 9. Terraform Apply ────────────────────────────────────────────────
       - name: Terraform Apply
         working-directory: Infra
-        run: |
-          terraform apply \
-            tfplan \
-            -no-color
+        run: terraform apply tfplan -no-color
 
       # ── 10. Show outputs ──────────────────────────────────────────────────
       - name: Terraform Output
