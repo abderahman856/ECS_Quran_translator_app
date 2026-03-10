@@ -149,11 +149,21 @@ jobs:
       # ── 7. Terraform Plan ─────────────────────────────────────────────────
       - name: Terraform Plan
         working-directory: Infra
+        id: plan
         run: |
           terraform plan \
             -var-file=envs/${{ needs.setup.outputs.environment }}.tfvars \
             -no-color \
             -out=tfplan
+        continue-on-error: true
+
+      - name: Check plan exit code
+        run: |
+          if [ "${{ steps.plan.outcome }}" == "failure" ]; then
+            echo "❌ Terraform plan failed"
+            exit 1
+          fi
+
 
       # ── 8. Upload tfplan artifact ─────────────────────────────────────────
       - name: Upload Terraform plan artifact
