@@ -64,8 +64,8 @@ jobs:
       # ── 6. Terraform Init ────────────────────────────────────────────────
       - name: Terraform Init
         working-directory: Infra
-        run: terraform init -reconfigure \
-          -backend-config="key=quran-app/dev/terraform.tfstate"
+        run: |
+          terraform init -reconfigure -backend-config="key=quran-app/dev/terraform.tfstate"
 
       # ── 7. Terraform Validate ────────────────────────────────────────────
       - name: Terraform Validate
