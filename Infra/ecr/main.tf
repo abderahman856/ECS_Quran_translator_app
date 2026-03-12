@@ -2,7 +2,7 @@ resource "aws_ecr_repository" "repo" {
   for_each     = var.repository_names
   force_delete = true
 
-  name                 = "${var.project_name}-${each.value}"
+  name                 = "${var.project_name}-${var.environment}-${each.value}"
   image_tag_mutability = var.image_tag_mutability
 
   encryption_configuration {
@@ -14,7 +14,7 @@ resource "aws_ecr_repository" "repo" {
   }
 
   tags = {
-    Name        = "${var.project_name}-${each.value}-ecr"
+    Name        = "${var.project_name}-${var.environment}-${each.value}-ecr"
     Environment = var.environment
   }
 }
