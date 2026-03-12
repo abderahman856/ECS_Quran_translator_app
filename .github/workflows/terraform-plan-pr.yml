@@ -91,7 +91,7 @@ jobs:
           scan-type: config
           scan-ref: Infra/
           severity: CRITICAL,HIGH
-          exit-code: 0       # don't fail pipeline on findings — just report
+          exit-code: 0      
           format: table
 
       # ── 10. Generate Terraform docs for each module ───────────────────────
@@ -111,6 +111,7 @@ jobs:
             Infra/cloudwatch
             Infra/security_groups
             Infra/cloudflare
+            bootstrap
           output-file: README.md
           output-method: inject
           git-push: true
