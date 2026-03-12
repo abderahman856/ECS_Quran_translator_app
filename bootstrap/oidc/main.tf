@@ -1,8 +1,6 @@
 # bootstrap/oidc/main.tf
 
 # ─── GitHub Actions OIDC Identity Provider ────────────────────────────────────
-# Tells AWS to trust GitHub Actions as an identity provider
-# Applied once manually — never destroyed
 resource "aws_iam_openid_connect_provider" "github" {
   url = "https://token.actions.githubusercontent.com"
 
@@ -10,7 +8,6 @@ resource "aws_iam_openid_connect_provider" "github" {
     "sts.amazonaws.com"
   ]
 
-  # GitHub's OIDC thumbprints — public and safe to commit
   thumbprint_list = [
     "6938fd4d98bab03faadb97b34396831e3780aea1",
     "1c58a3a8518e8759bf075b76b750d4f2df264fcd"
@@ -23,8 +20,6 @@ resource "aws_iam_openid_connect_provider" "github" {
 }
 
 # ─── IAM Role for GitHub Actions ──────────────────────────────────────────────
-# GitHub Actions assumes this role when running pipelines
-# No static keys — temporary token per pipeline run
 resource "aws_iam_role" "github_actions" {
   name        = "${var.project_name}-github-actions-role"
   description = "Role assumed by GitHub Actions via OIDC - no static keys"
@@ -43,7 +38,6 @@ resource "aws_iam_role" "github_actions" {
             "token.actions.githubusercontent.com:aud" = "sts.amazonaws.com"
           }
           StringLike = {
-            # Only YOUR repo can assume this role
             "token.actions.githubusercontent.com:sub" = "repo:${var.github_org}/${var.github_repo}:*"
           }
         }
@@ -79,6 +73,7 @@ resource "aws_iam_policy" "github_actions" {
           "ecs:ListTaskDefinitions",
           "ecs:ListTasks",
           "ecs:RegisterTaskDefinition",
+          "ecs:DeregisterTaskDefinition",
           "ecs:UpdateService",
           "ecs:CreateCluster",
           "ecs:DeleteCluster",
@@ -109,12 +104,13 @@ resource "aws_iam_policy" "github_actions" {
           "ecr:GetLifecyclePolicy",
           "ecr:PutLifecyclePolicy",
           "ecr:DeleteLifecyclePolicy",
-          "ecr:DescribeImages"
+          "ecr:DescribeImages",
+          "ecr:BatchDeleteImage",
+          "ecr:ListImages"
         ]
         Resource = "*"
       },
       # ── S3 ───────────────────────────────────────────────────────────────
-      # Using s3:* to avoid permission whack-a-mole during Terraform refreshes
       {
         Sid      = "S3Access"
         Effect   = "Allow"
@@ -153,6 +149,8 @@ resource "aws_iam_policy" "github_actions" {
           "iam:ListPolicyVersions",
           "iam:ListAttachedRolePolicies",
           "iam:ListRolePolicies",
+          "iam:ListRoles",
+          "iam:ListInstanceProfilesForRole",
           "iam:PutRolePolicy",
           "iam:DeleteRolePolicy",
           "iam:GetRolePolicy",
@@ -164,6 +162,30 @@ resource "aws_iam_policy" "github_actions" {
           "iam:GetOpenIDConnectProvider",
           "iam:UpdateOpenIDConnectProviderThumbprint",
           "iam:ListOpenIDConnectProviders"
+        ]
+        Resource = "*"
+      },
+      # ── KMS ──────────────────────────────────────────────────────────────
+      {
+        Sid    = "KMSAccess"
+        Effect = "Allow"
+        Action = [
+          "kms:CreateKey",
+          "kms:DescribeKey",
+          "kms:ScheduleKeyDeletion",
+          "kms:CreateAlias",
+          "kms:DeleteAlias",
+          "kms:ListAliases",
+          "kms:RetireGrant",
+          "kms:RevokeGrant",
+          "kms:ListGrants",
+          "kms:CreateGrant",
+          "kms:GenerateDataKey",
+          "kms:Decrypt",
+          "kms:Encrypt",
+          "kms:ListKeys",
+          "kms:ListResourceTags",
+          "kms:TagResource"
         ]
         Resource = "*"
       },
