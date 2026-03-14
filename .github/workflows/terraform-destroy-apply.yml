@@ -73,7 +73,7 @@ jobs:
       - name: Terraform Init
         working-directory: Infra
         run: |
-          terraform init \
+          terraform init -reconfigure \
             -backend-config="key=quran-app/${{ github.event.inputs.environment }}/terraform.tfstate"
 
       # ── 6. Create tfvars file from secrets ────────────────────────────────
