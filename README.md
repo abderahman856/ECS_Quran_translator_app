@@ -1,6 +1,6 @@
 # Quran Application Translator — Cloud-Native Web Application
 
-#### Description
+### Description
 
 A cloud-native web application that allows users to search for Quran verses by Surah and Ayah number and instantly retrieve their translations using an external Quran API.
 
