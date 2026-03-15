@@ -8,7 +8,7 @@ The application is fully containerized with Docker and deployed on AWS using Ter
 
 This project demonstrates how to design and deploy a scalable and production-ready cloud architecture for a full-stack application.
 
-## ## Table of Contents
+##Table of Contents
 
 * [Live Demo](#live-demo)
 * [Application Preview](#application-preview)
