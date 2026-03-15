@@ -25,3 +25,17 @@ This project demonstrates how to design and deploy a scalable and production-rea
 * [Learning Outcomes](#learning-outcomes)
 * [Author](#author)
 
+## Live Demo
+
+The application is deployed in a production-style cloud environment using AWS ECS Fargate, Application Load Balancer, and Terraform Infrastructure as Code.
+
+🌐 Application URL:
+https://baashe.uk
+
+### How to Test
+
+  Open the application using the link above.
+  
+  Enter a Surah number and Ayah number.
+  
+  The application fetches the verse translation from the Quran API and displays the result instantly.
