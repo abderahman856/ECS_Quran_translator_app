@@ -1,1 +1,1 @@
-Quran Translator — Cloud-Native Web Application
+# Quran Translator — Cloud-Native Web Application
