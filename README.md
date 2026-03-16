@@ -11,7 +11,6 @@ This project demonstrates how to design and deploy a scalable and production-rea
 ## Table of Contents
 
 * [Live Demo](https://github.com/abderahman856/ECS_Quran_translator_app?tab=readme-ov-file#live-demo)
-* [Application Preview](#application-preview)
 * [Architecture](#architecture)
 * [Technology Stack](#technology-stack)
 * [Infrastructure Overview](#infrastructure-overview)
