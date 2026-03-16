@@ -1,4 +1,4 @@
-# Quran Application Translator — Cloud-Native Web Application
+# Quran Application Translator, Cloud-Native Web Application
 
 ### Description
 
