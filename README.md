@@ -50,12 +50,12 @@ Application Workflow;
 
 ### The application follows a simple request-response flow:
 
-  ### The user accesses the web application through the browser.
+   The user accesses the web application through the browser.
   
-  ### The frontend interface allows users to input a Surah number and Ayah number.
+   The frontend interface allows users to input a Surah number and Ayah number.
   
-  ### The request is sent to the backend API.
+   The request is sent to the backend API.
   
-  ### The backend fetches the corresponding verse translation from an external Quran API.
+   The backend fetches the corresponding verse translation from an external Quran API.
   
-  ### The translation is returned to the frontend and displayed to the user.
+   The translation is returned to the frontend and displayed to the user.
