@@ -12,7 +12,6 @@ This project demonstrates how to design and deploy a scalable and production-rea
 
 * [Live Demo](https://github.com/abderahman856/ECS_Quran_translator_app?tab=readme-ov-file#live-demo)
 * [Application Preview](#application-preview)
-* [Project Overview](#project-overview)
 * [Architecture](#architecture)
 * [Technology Stack](#technology-stack)
 * [Infrastructure Overview](#infrastructure-overview)
@@ -39,23 +38,3 @@ https://baashe.uk
   Enter a Surah number and Ayah number.
   
   The application fetches the verse translation from the Quran API and displays the result instantly.
-
-## Project Overview
-
-The Quran Translator is a cloud-native web application designed to provide quick and easy access to Quran verse translations. Users can retrieve translations by entering a Surah number and Ayah number, and the system fetches the corresponding translation from an external Quran API.
-
-The goal of this project is to demonstrate how a modern full-stack application can be designed, containerized, and deployed using a scalable cloud infrastructure.
-
-Application Workflow;
-
-### The application follows a simple request-response flow:
-
-   The user accesses the web application through the browser.
-  
-   The frontend interface allows users to input a Surah number and Ayah number.
-  
-   The request is sent to the backend API.
-  
-   The backend fetches the corresponding verse translation from an external Quran API.
-  
-   The translation is returned to the frontend and displayed to the user.
