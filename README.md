@@ -215,7 +215,7 @@ quran-translator-app/
 *  **Network Isolation**
   Application runs inside a VPC with controlled access via Security Groups.
 
-*  **Health Checks & Self-Healing**
+*  **Health Checks & Self Healing**
   ECS and ALB monitor container health and replace unhealthy tasks.
 
 *  **Modular Infrastructure Design**
