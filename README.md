@@ -1,4 +1,4 @@
-# Quran Application Translator, Cloud-Native Web Application
+# Quran Application Translator, Cloud_Native Web Application
 
 ### Description
 
@@ -43,52 +43,52 @@ https://baashe.uk
 
 ## Technology Stack
 
-This project leverages a modern, cloud-native technology stack to ensure scalability, reliability, and maintainability.
+This project leverages a modern, cloud_native technology stack to ensure scalability, reliability, and maintainability.
 
 ### Frontend
 
-* **React.js** — Builds a dynamic and responsive user interface.
-* **JavaScript (ES6+)** — Core language for frontend logic and interactivity.
+* **React.js** ; Builds a dynamic and responsive user interface.
+* **JavaScript (ES6+)** ; Core language for frontend logic and interactivity.
 
 ### Backend
 
-* **Node.js** — Runtime environment for executing server-side logic.
-* **Express.js** — Lightweight framework for building REST APIs.
-* **Axios** — Handles HTTP requests to the external Quran API.
+* **Node.js** ; Runtime environment for executing server_side logic.
+* **Express.js** ; Lightweight framework for building REST APIs.
+* **Axios** ; Handles HTTP requests to the external Quran API.
 
 ### Containerization
 
-* **Docker** — Packages the application into portable containers.
-* **Docker Compose** — Manages multi-container setup for local development.
+* **Docker** ; Packages the application into portable containers.
+* **Docker Compose** ; Manages multi-container setup for local development.
 
 ### Cloud & Infrastructure
 
-* **AWS ECS (Fargate)** — Runs containers without managing servers.
-* **Amazon ECR** — Stores Docker images securely.
-* **Application Load Balancer (ALB)** — Distributes traffic across services.
-* **AWS CloudWatch** — Logging and monitoring for application health.
+* **AWS ECS (Fargate)** ; Runs containers without managing servers.
+* **Amazon ECR** ; Stores Docker images securely.
+* **Application Load Balancer (ALB)** ; Distributes traffic across services.
+* **AWS CloudWatch** ; Logging and monitoring for application health.
 
 ### Infrastructure as Code (IaC)
 
-* **Terraform** — Provisions and manages cloud infrastructure using code.
-* **Modular Terraform Design** — Ensures reusable and maintainable infrastructure.
+* **Terraform** ; Provisions and manages cloud infrastructure using code.
+* **Modular Terraform Design** ; Ensures reusable and maintainable infrastructure.
 
 ### CI/CD & Automation
 
-* **GitHub Actions** — Automates build, test, and deployment pipelines.
-* **OIDC Authentication** — Secure access to AWS without storing credentials.
+* **GitHub Actions** ; Automates build, test, and deployment pipelines.
+* **OIDC Authentication** ; Secure access to AWS without storing credentials.
 
 ### Networking & Security
 
-* **VPC (Virtual Private Cloud)** — Isolated network environment in AWS.
-* **Security Groups** — Control inbound and outbound traffic.
-* **ACM (AWS Certificate Manager)** — Manages SSL/TLS certificates for HTTPS.
+* **VPC (Virtual Private Cloud)** ; Isolated network environment in AWS.
+* **Security Groups** ; Control inbound and outbound traffic.
+* **ACM (AWS Certificate Manager)** ; Manages SSL/TLS certificates for HTTPS.
 
 ### DNS & CDN
 
-* **Cloudflare** — Domain management, DNS routing, and CDN for improved performance and security.
+* **Cloudflare** ; Domain management, DNS routing, and CDN for improved performance and security.
 
 ### External Services
 
-* **Quran API (alquran.cloud)** — Provides Quran verse data and translations.
+* **Quran API (alquran.cloud)** ; Provides Quran verse data and translations.
 
