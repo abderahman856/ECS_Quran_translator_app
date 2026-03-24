@@ -157,8 +157,6 @@ quran-translator-app/
 
 ## Features
 
-The application provides both user-facing functionality and production-grade infrastructure capabilities.
-
 ### Application Features
 
 *  **Search Quran Verses**
