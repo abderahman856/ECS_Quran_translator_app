@@ -92,95 +92,65 @@ This project leverages a modern, cloud_native technology stack to ensure scalabi
 
 ## Repository Structure
 
-The project is organized using a modular and production-oriented structure, separating application code, infrastructure, CI/CD pipelines, and documentation for clarity and scalability.
-
 ### Project Layout
 
 ```bash
 quran-translator-app/
 │
 ├── .github/
-│   └── workflows/                     # CI/CD pipelines (GitHub Actions)
-│       ├── docker-build-push.yml      # Build & push Docker images to ECR
-│       ├── frontend.yml               # Frontend-specific pipeline
-│       ├── terraform-plan-pr.yml      # Terraform plan for pull requests
-│       ├── terraform-apply.yml        # Apply infrastructure changes
-│       ├── terraform-destroy-apply.yml# Destroy infrastructure
-│       ├── terraform-destroy-plan.yml # Plan destroy actions
-│       └── terraform-unlock-state.yml # Unlock Terraform state
+│   └── workflows/                     
+│       ├── docker-build-push.yml     
+│       ├── frontend.yml              
+│       ├── terraform-plan-pr.yml     
+│       ├── terraform-apply.yml       
+│       ├── terraform-destroy-apply.yml
+│       ├── terraform-destroy-plan.yml
+│       └── terraform-unlock-state.yml 
 │
-├── Infra/                             # Main infrastructure (Terraform)
-│   ├── acm/                           # SSL certificates (HTTPS)
-│   ├── alb/                           # Load balancer configuration
-│   ├── cloudflare/                    # DNS integration (Cloudflare)
-│   ├── cloudfront/                    # CDN (optional)
-│   ├── cloudwatch/                    # Logging & monitoring
-│   ├── ecr/                           # Container registry
-│   ├── ecs/                           # Container orchestration (Fargate)
-│   ├── envs/                          # Environment-specific configs
-│   ├── gateway_endpoint/              # VPC gateway endpoints
-│   ├── s3/                            # Storage resources
-│   ├── security_groups/               # Network security rules
-│   ├── vpc/                           # Networking (VPC, subnets)
-│   ├── main.tf                        # Root Terraform configuration
-│   ├── variables.tf                   # Input variables
-│   ├── outputs.tf                     # Output values
-│   ├── backend.tf                     # Remote state configuration
-│   └── README.md                      # Infra documentation
+├── Infra/                             
+│   ├── acm/                          
+│   ├── alb/                           
+│   ├── cloudflare/                    
+│   ├── cloudfront/                    
+│   ├── cloudwatch/                   
+│   ├── ecr/                           
+│   ├── ecs/                           
+│   ├── envs/                          
+│   ├── gateway_endpoint/             
+│   ├── s3/                            
+│   ├── security_groups/              
+│   ├── vpc/                           
+│   ├── main.tf                        
+│   ├── variables.tf                   
+│   ├── outputs.tf                    
+│   ├── backend.tf                     
+│   └── README.md                     
 │
-├── app/                               # Application source code
-│   ├── frontend/                      # React frontend
-│   └── backend/                       # Node.js backend API
+├── app/                               
+│   ├── frontend/                      
+│   └── backend/                      
 │
-├── bootstrap/                         # Initial infrastructure setup
-│   ├── oidc/                          # OIDC setup for CI/CD authentication
-│   ├── main.tf                        # Bootstrap resources (S3, IAM)
-│   ├── provider.tf                    # Provider configuration
-│   ├── variables.tf                   # Bootstrap variables
-│   └── outputs.tf                     # Bootstrap outputs
+├── bootstrap/                         
+│   ├── oidc/                          
+│   ├── main.tf                       
+│   ├── provider.tf                    
+│   ├── variables.tf                  
+│   └── outputs.tf                     
 │
-├── docs/                              # Documentation & assets
-│   ├── CI_CD_pipelines/               # Pipeline visualizations
-│   │   ├── dev_environment/           # Dev pipeline screenshots
-│   │   └── prod_environment/          # Prod pipeline screenshots
-│   ├── Manual_Clickops/               # Manual setup steps (if any)
-│   ├── containers/                   # Container-related docs
-│   ├── developing_the_app_locally/   # Local setup guides
-│   └── Architecture_diagram.gif      # System architecture diagram
+├── docs/                              
+│   ├── CI_CD_pipelines/               
+│   │   ├── dev_environment/           
+│   │   └── prod_environment/         
+│   ├── Manual_Clickops/               
+│   ├── containers/                   
+│   ├── developing_the_app_locally/   
+│   └── Architecture_diagram.gif      
 │
-├── docker-compose.yml                 # Local multi-container setup
-├── package.json                       # Project dependencies (root)
-├── package-lock.json                  # Dependency lock file
-├── .dockerignore                      # Docker ignore rules
-├── .gitignore                         # Git ignore rules
-├── .pre-commit-config.yaml            # Code quality hooks
-└── README.md                          # Project documentation
+├── docker-compose.yml                 
+├── package.json                       
+├── package-lock.json                  
+├── .dockerignore                      
+├── .gitignore                         
+├── .pre-commit-config.yaml            
+└── README.md                          
 ```
-
-### Structure Explanation
-
-* **.github/workflows/**
-  Contains CI/CD pipelines for automating build, deployment, and infrastructure operations.
-
-* **Infra/**
-  Houses all Terraform infrastructure code, organized into modular components for scalability and reuse.
-
-* **app/**
-  Contains the core application:
-
-  * **frontend/** → React UI
-  * **backend/** → Node.js API
-
-* **bootstrap/**
-  Responsible for initial setup such as Terraform remote state (S3) and secure authentication (OIDC).
-
-* **docs/**
-  Includes architecture diagrams, pipeline screenshots, and supporting documentation.
-
-* **docker-compose.yml**
-  Enables local development by running frontend and backend containers together.
-
-* **Root files**
-  Manage dependencies, Git configuration, and project-level settings.
-
-
