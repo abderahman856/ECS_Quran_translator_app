@@ -13,8 +13,6 @@ This project demonstrates how to design and deploy a scalable and production-rea
 * [Live Demo](https://github.com/abderahman856/ECS_Quran_translator_app?tab=readme-ov-file#live-demo)
 * [Architecture](#architecture)
 * [Technology Stack](#technology-stack)
-* [Infrastructure Overview](#infrastructure-overview)
-* [Terraform Modules](#terraform-modules)
 * [Repository Structure](#repository-structure)
 * [Features](#features)
 * [Deployment Process](#deployment-process)
