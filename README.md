@@ -15,7 +15,6 @@ This project demonstrates how to design and deploy a scalable and production-rea
 * [Technology Stack](#technology-stack)
 * [Repository Structure](#repository-structure)
 * [Features](#features)
-* [Deployment Process](#deployment-process)
 * [Local Development](#local-development)
 * [Future Improvements](#future-improvements)
 * [Learning Outcomes](#learning-outcomes)
@@ -221,3 +220,37 @@ quran-translator-app/
 *  **Modular Infrastructure Design**
   Terraform modules ensure reusable and maintainable infrastructure.
 
+💻 Local Development
+
+This section enables contributors and reviewers to quickly run the application in a local environment with minimal setup.
+
+📦 Prerequisites
+Docker
+Docker Compose
+Node.js (optional for manual runs)
+⚙️ Setup Instructions
+1. Clone the Repository
+git clone https://github.com/your-username/quran-translator-app.git
+cd quran-translator-app
+2. Configure Environment Variables
+
+Create a .env file inside the backend:
+
+PORT=5000
+QURAN_API_BASE_URL=https://api.alquran.cloud/v1/ayah
+3. Run with Docker Compose
+docker-compose up --build
+4. Access the Application
+Frontend → http://localhost:3000
+Backend → http://localhost:5000
+🧪 Health Check
+curl http://localhost:5000/health
+🛠️ Alternative (Without Docker)
+Backend
+cd app/backend
+npm install
+npm run dev
+Frontend
+cd app/frontend
+npm install
+npm start
