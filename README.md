@@ -341,9 +341,6 @@ curl http://localhost:5000/health
 ---
 
 #  **Learning Outcomes**
-
-This project demonstrates hands-on experience in building and deploying modern cloud-native applications.
-
 ---
 
 ##  **CI/CD & Automation**
