@@ -90,3 +90,74 @@ This project leverages a modern, cloud_native technology stack to ensure scalabi
 
 * **Quran API (alquran.cloud)** ; Provides Quran verse data and translations.
 
+## Repository Structure
+
+The project follows a structured and modular layout to ensure clarity, scalability, and maintainability across application and infrastructure components.
+
+### Project Layout
+
+```bash
+quran-translator-app/
+│
+├── app/
+│   ├── frontend/                # React application (UI layer)
+│   └── backend/                # Node.js API (business logic)
+│
+├── docker/
+│   ├── frontend.Dockerfile     # Frontend container configuration
+│   └── backend.Dockerfile      # Backend container configuration
+│
+├── infrastructure/
+│   ├── bootstrap/              # Initial setup (S3 backend, state management)
+│   └── modules/                # Reusable Terraform modules
+│       ├── vpc/
+│       ├── security_groups/
+│       ├── iam/
+│       ├── ecr/
+│       ├── ecs/
+│       ├── alb/
+│       ├── acm/
+│       ├── cloudwatch/
+│       ├── s3/
+│       ├── cloudfront/
+│       ├── gateway_endpoint/
+│       ├── interface_endpoint/
+│       └── ...
+│
+├── .github/
+│   └── workflows/              # CI/CD pipelines (GitHub Actions)
+│
+├── docs/
+│   └── images/                 # Screenshots, diagrams, demo assets
+│
+├── docker-compose.yml          # Local multi-container setup
+├── README.md                   # Project documentation
+└── .env.example                # Environment variables template
+```
+
+### Structure Explanation
+
+* **app/**
+  Contains the core application code, separated into frontend and backend for better scalability and independent development.
+
+* **docker/**
+  Holds Dockerfiles for building production-ready container images for each service.
+
+* **infrastructure/**
+  Manages all cloud resources using Terraform:
+
+  * **bootstrap/** initializes remote state storage (S3, DynamoDB)
+  * **modules/** contains reusable infrastructure components
+
+* **.github/workflows/**
+  Defines CI/CD pipelines for automating build, test, and deployment processes.
+
+* **docs/**
+  Stores documentation assets such as architecture diagrams and application screenshots.
+
+* **docker-compose.yml**
+  Enables local development by running frontend and backend containers together.
+
+* **.env.example**
+  Provides a template for required environment variables without exposing sensitive data.
+
