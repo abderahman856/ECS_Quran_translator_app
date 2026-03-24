@@ -37,3 +37,6 @@ https://baashe.uk
   Enter a Surah number and Ayah number.
   
   The application fetches the verse translation from the Quran API and displays the result instantly.
+
+### Architecture Diagram
+![Architecture Diagram](docs/Architecture_diagram.gif)
