@@ -16,8 +16,9 @@ This project demonstrates how to design and deploy a scalable and production-rea
 * [Repository Structure](#repository-structure)
 * [Features](#features)
 * [Local Development](#local-development)
-* [Contributing]()
 * [Author](#author)
+* [Contributing](https://github.com/abderahman856/ECS_Quran_translator_app?tab=readme-ov-file#contributing)
+
 
 ## Live Demo
 
@@ -420,9 +421,6 @@ Focused on building **production-ready, scalable systems**.
 ---
 
 #  **Contributing**
-
-Contributions are welcome and appreciated!
-
 ---
 
 ##  **How to Contribute**
