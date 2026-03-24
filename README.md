@@ -24,7 +24,7 @@ This project demonstrates how to design and deploy a scalable and production-rea
 
 The application is deployed in a production-style cloud environment using AWS ECS Fargate, Application Load Balancer, and Terraform Infrastructure as Code.
 
-🌐 Application URL:
+Application URL:
 https://baashe.uk
 
 ### How to Test
@@ -214,7 +214,7 @@ quran-translator-app/
 *  **Network Isolation**
   Application runs inside a VPC with controlled access via Security Groups.
 
-*  **Health Checks & Self Healing**
+* **Health Checks & Self Healing**
   ECS and ALB monitor container health and replace unhealthy tasks.
 
 *  **Modular Infrastructure Design**
