@@ -415,9 +415,6 @@ This project represents a full DevOps journey:
 ```
 Development → Docker → CI/CD → Terraform → AWS → Monitoring
 ```
-
-Focused on building **production-ready, scalable systems**.
-
 ---
 
 #  **Contributing**
