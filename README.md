@@ -403,8 +403,8 @@ This project demonstrates hands-on experience in building and deploying modern c
 
 ##  **Connect**
 
-* GitHub: https://https://github.com/abderahman856
-* LinkedIn: https://https://www.linkedin.com/in/abdurahman12/
+* GitHub: https://github.com/abderahman856
+* LinkedIn: https://www.linkedin.com/in/abdurahman12/
 
 ---
 
