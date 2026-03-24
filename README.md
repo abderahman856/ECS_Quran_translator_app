@@ -38,5 +38,5 @@ https://baashe.uk
   
   The application fetches the verse translation from the Quran API and displays the result instantly.
 
-### Architecture Diagram
+### Architecture 
 ![Architecture Diagram](docs/Architecture_diagram.gif)
