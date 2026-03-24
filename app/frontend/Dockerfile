@@ -1,25 +1,18 @@
-# Stage 1: Build
 FROM node:20-alpine AS builder
 WORKDIR /app
 
-# Define Build Arguments
-# This allows Docker to pass variables from your .env/docker-compose into the build process
 ARG VITE_API_URL
 
-# Set them as Environment Variables for the build command
 ENV VITE_API_URL=$VITE_API_URL
 
 COPY package*.json ./
 RUN npm install
 COPY . .
 
-# Now when this runs, Vite will find VITE_API_URL and bake it into the code
 RUN npm run build
 
-# Stage 2: Serve
 FROM nginx:alpine
 
-# Create non-root user
 RUN addgroup -S appgroup && adduser -S appuser -G appgroup
 
 RUN mkdir -p /var/cache/nginx/client_temp \

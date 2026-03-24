@@ -16,12 +16,12 @@ variable "aws_region" {
 }
 
 variable "domain_name" {
-  description = "Your custom domain (e.g., quranapp.com). Must be managed in Cloudflare."
+  description = "My custom domain."
   type        = string
 }
 
 variable "container_image" {
-  description = "Full ECR image URI for the backend container (e.g., 123456789.dkr.ecr.us-east-1.amazonaws.com/quran-app-backend:v1.0.0)."
+  description = "Full ECR image URI for the backend container."
   type        = string
 }
 
@@ -32,13 +32,13 @@ variable "container_port" {
 }
 
 variable "cpu" {
-  description = "ECS task CPU units (e.g., 256, 512)."
+  description = "ECS task CPU units."
   type        = string
   default     = "256"
 }
 
 variable "memory" {
-  description = "ECS task memory in MiB (e.g., 512, 1024)."
+  description = "ECS task memory in MiB."
   type        = string
   default     = "512"
 }
@@ -80,12 +80,12 @@ variable "log_retention_days" {
 }
 
 variable "cloudflare_zone_id" {
-  description = "Your Cloudflare Zone ID. Found in Cloudflare dashboard → your domain → Overview → Zone ID."
+  description = "Your Cloudflare Zone ID."
   type        = string
 }
 
 variable "cloudflare_api_token" {
-  description = "Cloudflare API token with DNS edit permissions. Never commit this value."
+  description = "Cloudflare API token with DNS edit permissions."
   type        = string
   sensitive   = true
 }

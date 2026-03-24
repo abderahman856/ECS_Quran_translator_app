@@ -8,7 +8,6 @@ exclude: |
   )$
 
 repos:
-  # ─── General ────────────────────────────────────────────────────────────────
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v5.0.0
     hooks:
@@ -28,7 +27,6 @@ repos:
         name: Prevent commits to main
         args: [--branch, main]
 
-  # ─── Terraform ──────────────────────────────────────────────────────────────
   - repo: https://github.com/antonbabenko/pre-commit-terraform
     rev: v1.104.0
     hooks:
@@ -55,7 +53,6 @@ repos:
         name: Security scan
         description: Runs trivy to scan for security misconfigurations in your Terraform code
 
-  # ─── Docker ─────────────────────────────────────────────────────────────────
   - repo: https://github.com/hadolint/hadolint
     rev: v2.12.0
     hooks:
@@ -63,7 +60,6 @@ repos:
         name: Lint Dockerfiles
         description: Runs hadolint to lint Dockerfiles
 
-  # ─── Frontend (React/JS) ────────────────────────────────────────────────────
   - repo: https://github.com/pre-commit/mirrors-prettier
     rev: v4.0.0-alpha.8
     hooks:
@@ -84,7 +80,6 @@ repos:
           - eslint-plugin-react@7.35.0
           - eslint-plugin-react-hooks@4.6.2
 
-  # ─── Backend (Node.js) ──────────────────────────────────────────────────────
   - repo: https://github.com/pre-commit/mirrors-prettier
     rev: v4.0.0-alpha.8
     hooks:

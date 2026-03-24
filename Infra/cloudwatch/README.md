@@ -1,4 +1,3 @@
-<!-- BEGIN_TF_DOCS -->
 ## Requirements
 
 | Name | Version |
@@ -38,4 +37,3 @@ No modules.
 | Name | Description |
 |------|-------------|
 | <a name="output_log_group_name"></a> [log\_group\_name](#output\_log\_group\_name) | The name of the CloudWatch log group to be used in ECS task definitions. |
-<!-- END_TF_DOCS -->

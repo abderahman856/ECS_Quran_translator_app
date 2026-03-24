@@ -4,12 +4,12 @@ variable "project_name" {
 }
 
 variable "environment" {
-  description = "Deployment environment (dev, prod)."
+  description = "Deployment environment."
   type        = string
 }
 
 variable "bucket_name" {
-  description = "Specific name for the S3 bucket (must be globally unique)."
+  description = "Specific name for the S3 bucket."
   type        = string
 }
 

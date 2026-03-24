@@ -1,8 +1,5 @@
 # Quran App Infrastructure
- 
-
-<!-- BEGIN_TF_DOCS -->
-## Requirements
+ ## Requirements
 
 | Name | Version |
 |------|---------|
@@ -68,4 +65,3 @@ No resources.
 | <a name="output_acm_validation_record_value"></a> [acm\_validation\_record\_value](#output\_acm\_validation\_record\_value) | Add this CNAME value to Cloudflare to validate your ACM certificate. |
 | <a name="output_alb_dns_name"></a> [alb\_dns\_name](#output\_alb\_dns\_name) | Point your Cloudflare API subdomain CNAME record to this value. |
 | <a name="output_cloudfront_domain_name"></a> [cloudfront\_domain\_name](#output\_cloudfront\_domain\_name) | Point your Cloudflare root domain CNAME record to this value. |
-<!-- END_TF_DOCS -->

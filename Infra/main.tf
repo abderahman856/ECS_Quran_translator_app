@@ -4,7 +4,7 @@ module "vpc" {
   environment          = var.environment
   vpc_cidr             = var.vpc_cidr
   private_subnet_cidrs = var.private_subnet_cidrs
-  public_subnet_cidrs  = var.public_subnet_cidrs # ← add this
+  public_subnet_cidrs  = var.public_subnet_cidrs 
   availability_zones   = var.availability_zones
 }
 

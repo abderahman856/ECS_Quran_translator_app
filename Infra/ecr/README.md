@@ -1,4 +1,3 @@
-<!-- BEGIN_TF_DOCS -->
 ## Requirements
 
 | Name | Version |
@@ -39,4 +38,3 @@ No modules.
 |------|-------------|
 | <a name="output_repository_arns"></a> [repository\_arns](#output\_repository\_arns) | A map of repository names to their ARNs. |
 | <a name="output_repository_urls"></a> [repository\_urls](#output\_repository\_urls) | A map of repository names to their full registry URLs. |
-<!-- END_TF_DOCS -->

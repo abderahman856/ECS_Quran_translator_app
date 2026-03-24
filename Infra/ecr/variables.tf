@@ -10,12 +10,12 @@ variable "environment" {
 }
 
 variable "repository_names" {
-  description = "A list of ECR repository names to create (e.g., ['frontend', 'backend'])."
+  description = "A list of ECR repository names to create."
   type        = set(string)
 }
 
 variable "image_tag_mutability" {
-  description = "The tag mutability setting for the repository. Must be one of: MUTABLE or IMMUTABLE."
+  description = "The tag mutability setting for the repository."
   type        = string
   default     = "IMMUTABLE"
 }

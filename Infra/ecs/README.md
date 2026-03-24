@@ -1,4 +1,3 @@
-<!-- BEGIN_TF_DOCS -->
 ## Requirements
 
 | Name | Version |
@@ -49,4 +48,3 @@ No modules.
 |------|-------------|
 | <a name="output_cluster_name"></a> [cluster\_name](#output\_cluster\_name) | The name of the ECS Cluster. |
 | <a name="output_service_name"></a> [service\_name](#output\_service\_name) | The name of the ECS Service. |
-<!-- END_TF_DOCS -->

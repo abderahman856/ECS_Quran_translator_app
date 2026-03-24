@@ -37,7 +37,6 @@ ${translation}
       transition={{ duration: 0.8 }}
       className="mt-3 rounded-3xl border border-indigo-500/20 bg-gradient-to-br from-slate-950/80 via-slate-900/70 to-slate-950/90 p-6 shadow-lg sm:p-7"
     >
-      {/* Surah Meta */}
       <div className="text-center">
         <p className="text-xs font-semibold uppercase tracking-[0.22em] text-indigo-300/90">
           Surah {surah_number} • Ayah {ayah_number}
@@ -55,7 +54,6 @@ ${translation}
 
       <div className="mt-5 h-px w-full bg-gradient-to-r from-transparent via-indigo-400/40 to-transparent" />
 
-      {/* Arabic Section */}
       <div className="mt-6 text-center">
         <p className="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-slate-400">
           Arabic
@@ -71,7 +69,6 @@ ${translation}
         </div>
       </div>
 
-      {/* Translation Section */}
       <div className="mt-7 text-center">
         <p className="mb-3 text-xs font-semibold uppercase tracking-[0.2em] text-slate-400">
           English Translation (Asad)
@@ -84,7 +81,6 @@ ${translation}
         </div>
       </div>
 
-      {/* Copy Button */}
       <div className="mt-7 flex justify-center">
         <motion.button
           onClick={handleCopy}

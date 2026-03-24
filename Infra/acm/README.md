@@ -1,4 +1,3 @@
-<!-- BEGIN_TF_DOCS -->
 ## Requirements
 
 | Name | Version |
@@ -37,4 +36,3 @@ No modules.
 | <a name="output_certificate_arn"></a> [certificate\_arn](#output\_certificate\_arn) | The ARN of the validated certificate. Used by ALB and CloudFront. |
 | <a name="output_validation_record_name"></a> [validation\_record\_name](#output\_validation\_record\_name) | The NAME of the CNAME record to add to Cloudflare for validation. |
 | <a name="output_validation_record_value"></a> [validation\_record\_value](#output\_validation\_record\_value) | The VALUE of the CNAME record to add to Cloudflare for validation. |
-<!-- END_TF_DOCS -->

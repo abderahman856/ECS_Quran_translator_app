@@ -12,16 +12,15 @@ export default function App() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
-  // FIX: Remove "s" from delay and duration.
-  // Framer Motion needs pure numbers for its internal calculation.
+
   const particles = useMemo(
     () =>
       Array.from({ length: 28 }, (_, i) => ({
         id: i,
         size: rand(3, 7),
         left: `${rand(0, 100)}%`,
-        delay: rand(0, 12),     // Changed from string to number
-        duration: rand(12, 28),  // Changed from string to number
+        delay: rand(0, 12),     
+        duration: rand(12, 28),  
         color: PARTICLE_COLORS[i % PARTICLE_COLORS.length],
       })),
     []
@@ -34,7 +33,6 @@ export default function App() {
     try {
       const params = new URLSearchParams({ surah, ayah }).toString();
 
-      // FIX: Use VITE_API_URL from your .env file
       const baseUrl = import.meta.env.VITE_API_URL || "http://localhost:5002";
 
       const response = await fetch(`${baseUrl}/api/ayah?${params}`);
@@ -55,14 +53,12 @@ export default function App() {
   return (
     <div className="relative min-h-screen overflow-hidden bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950 text-slate-50">
 
-      {/* Background Orbs */}
       <motion.div
         className="pointer-events-none absolute -top-40 -left-40 h-[28rem] w-[28rem] rounded-full bg-indigo-500/25 blur-[120px]"
         animate={{ opacity: [0.25, 0.7, 0.25], scale: [1, 1.15, 1], x: [0, 40, 0] }}
         transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
       />
 
-      {/* Floating Particles */}
       {particles.map((p) => (
         <motion.span
           key={p.id}
@@ -86,14 +82,13 @@ export default function App() {
           transition={{
             repeat: Infinity,
             repeatType: "loop",
-            duration: p.duration, // Pure number here
-            delay: p.delay,       // Pure number here
+            duration: p.duration, 
+            delay: p.delay,       
             ease: "easeInOut",
           }}
         />
       ))}
 
-      {/* Main content */}
       <main className="relative z-10 flex min-h-screen items-center justify-center px-4 py-10">
         <motion.div
           initial={{ opacity: 0, y: 20 }}

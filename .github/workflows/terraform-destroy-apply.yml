@@ -1,7 +1,3 @@
-# .github/workflows/terraform-destroy-apply.yml
-# Manual trigger only — actually destroys infrastructure
-# ALWAYS run terraform-destroy-plan.yml first to review what will be destroyed
-
 name: Terraform Destroy Apply
 
 on:
@@ -34,34 +30,29 @@ jobs:
     environment: ${{ github.event.inputs.environment == 'prod' && 'production' || 'development' }}
 
     steps:
-      # ── 0. Validate confirmation ──────────────────────────────────────────
       - name: Validate confirmation
         run: |
           if [ "${{ github.event.inputs.confirm }}" != "destroy" ]; then
-            echo "❌ You must type 'destroy' to confirm. Got: '${{ github.event.inputs.confirm }}'"
+            echo "You must type 'destroy' to confirm. Got: '${{ github.event.inputs.confirm }}'"
             exit 1
           fi
-          echo "✅ Confirmation accepted"
+          echo "Confirmation accepted"
 
-      # ── 1. Checkout code ─────────────────────────────────────────────────
       - name: Checkout code
         uses: actions/checkout@v4
 
-      # ── 2. Configure AWS via OIDC ─────────────────────────────────────────
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
           role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
           aws-region: ${{ secrets.AWS_REGION }}
 
-      # ── 3. Setup Terraform ────────────────────────────────────────────────
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
         with:
           terraform_version: ${{ env.TF_VERSION }}
           terraform_wrapper: false
 
-      # ── 4. Cache Terraform providers ──────────────────────────────────────
       - name: Cache Terraform providers
         uses: actions/cache@v4
         with:
@@ -69,14 +60,12 @@ jobs:
           key: terraform-${{ hashFiles('Infra/.terraform.lock.hcl') }}
           restore-keys: terraform-
 
-      # ── 5. Terraform Init — separate state per environment ────────────────
       - name: Terraform Init
         working-directory: Infra
         run: |
           terraform init -reconfigure \
             -backend-config="key=quran-app/${{ github.event.inputs.environment }}/terraform.tfstate"
 
-      # ── 6. Create tfvars file from secrets ────────────────────────────────
       - name: Create tfvars file
         working-directory: Infra
         run: |
@@ -120,11 +109,10 @@ jobs:
           EOF
           fi
 
-      # ── 7. Empty S3 buckets before destroy ────────────────────────────────
       - name: Empty S3 buckets
         run: |
           ENV="${{ github.event.inputs.environment }}"
-          echo "🗑️ Emptying S3 buckets for $ENV..."
+          echo "Emptying S3 buckets for $ENV..."
 
           for BUCKET in \
             "quran-app-${ENV}-frontend" \
@@ -161,13 +149,12 @@ jobs:
 
           done
 
-          echo "✅ All S3 buckets emptied"
+          echo "All S3 buckets emptied"
 
-      # ── 8. Empty ECR repository ───────────────────────────────────────────
       - name: Empty ECR repository
         run: |
           REPO="quran-app-backend"
-          echo "🗑️ Deleting all images from ECR $REPO..."
+          echo "Deleting all images from ECR $REPO..."
 
           IMAGE_IDS=$(aws ecr list-images \
             --repository-name $REPO \
@@ -178,12 +165,11 @@ jobs:
             aws ecr batch-delete-image \
               --repository-name $REPO \
               --image-ids "$IMAGE_IDS"
-            echo "✅ ECR images deleted"
+            echo "ECR images deleted"
           else
             echo "ECR already empty or not found"
           fi
 
-      # ── 9. Terraform Destroy ──────────────────────────────────────────────
       - name: Terraform Destroy
         working-directory: Infra
         run: |
@@ -192,13 +178,12 @@ jobs:
             -no-color \
             -auto-approve
 
-      # ── 10. Summary ───────────────────────────────────────────────────────
       - name: Destroy summary
         run: |
           ENV="${{ github.event.inputs.environment }}"
-          echo "## 💥 Destroy Complete" >> $GITHUB_STEP_SUMMARY
+          echo "## Destroy Complete" >> $GITHUB_STEP_SUMMARY
           echo "| Field | Value |" >> $GITHUB_STEP_SUMMARY
           echo "|-------|-------|" >> $GITHUB_STEP_SUMMARY
           echo "| Environment | $ENV |" >> $GITHUB_STEP_SUMMARY
-          echo "| Status | All resources destroyed ✅ |" >> $GITHUB_STEP_SUMMARY
+          echo "| Status | All resources destroyed |" >> $GITHUB_STEP_SUMMARY
           echo "| Triggered by | ${{ github.actor }} |" >> $GITHUB_STEP_SUMMARY

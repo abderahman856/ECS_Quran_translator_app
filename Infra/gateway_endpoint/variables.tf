@@ -9,6 +9,6 @@ variable "private_route_table_ids" {
 }
 
 variable "environment" {
-  description = "Deployment environment (dev, staging, prod)."
+  description = "Deployment environment."
   type        = string
 }

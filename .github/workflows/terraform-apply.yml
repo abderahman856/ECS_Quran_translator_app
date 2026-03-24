@@ -1,12 +1,6 @@
-# .github/workflows/terraform-apply.yml
-# Two triggers:
-# 1. Auto — pushes to main that change Infra/ → deploys dev automatically
-# 2. Manual — workflow_dispatch → you choose dev or prod
-
 name: Terraform Apply
 
 on:
-  # ── Auto trigger — dev only ──────────────────────────────────────────────
   push:
     branches:
       - main
@@ -14,7 +8,6 @@ on:
       - 'Infra/**'
       - '!Infra/envs/*.tfvars'
 
-  # ── Manual trigger — choose environment ──────────────────────────────────
   workflow_dispatch:
     inputs:
       environment:
@@ -37,7 +30,6 @@ env:
   TF_VERSION: "1.10.3"
 
 jobs:
-  # ── Determine environment ─────────────────────────────────────────────────
   setup:
     name: Setup Environment
     runs-on: ubuntu-latest
@@ -58,11 +50,10 @@ jobs:
         if: github.event_name == 'workflow_dispatch' && github.event.inputs.environment == 'prod'
         run: |
           if [ "${{ github.event.inputs.confirm }}" != "apply" ]; then
-            echo "❌ You must type 'apply' to confirm prod deployment"
+            echo "You must type 'apply' to confirm prod deployment"
             exit 1
           fi
 
-  # ── Terraform Apply ───────────────────────────────────────────────────────
   terraform-apply:
     name: Terraform Apply (${{ needs.setup.outputs.environment }})
     runs-on: ubuntu-latest
@@ -71,25 +62,21 @@ jobs:
     environment: ${{ needs.setup.outputs.environment == 'prod' && 'production' || 'development' }}
 
     steps:
-      # ── 1. Checkout code ─────────────────────────────────────────────────
       - name: Checkout code
         uses: actions/checkout@v4
 
-      # ── 2. Configure AWS via OIDC ─────────────────────────────────────────
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
           role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
           aws-region: ${{ secrets.AWS_REGION }}
 
-      # ── 3. Setup Terraform ────────────────────────────────────────────────
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v3
         with:
           terraform_version: ${{ env.TF_VERSION }}
           terraform_wrapper: false
 
-      # ── 4. Cache Terraform providers ──────────────────────────────────────
       - name: Cache Terraform providers
         uses: actions/cache@v4
         with:
@@ -97,14 +84,12 @@ jobs:
           key: terraform-${{ hashFiles('Infra/.terraform.lock.hcl') }}
           restore-keys: terraform-
 
-      # ── 5. Terraform Init — separate state per environment ────────────────
       - name: Terraform Init
         working-directory: Infra
         run: |
           terraform init -reconfigure \
             -backend-config="key=quran-app/${{ needs.setup.outputs.environment }}/terraform.tfstate"
 
-      # ── 6. Create tfvars file from GitHub Secrets ─────────────────────────
       - name: Create tfvars file
         working-directory: Infra
         run: |
@@ -148,7 +133,6 @@ jobs:
           EOF
           fi
 
-      # ── 7. Terraform Plan ─────────────────────────────────────────────────
       - name: Terraform Plan
         working-directory: Infra
         run: |
@@ -159,12 +143,11 @@ jobs:
             -out=tfplan
           EXIT_CODE=$?
           if [ $EXIT_CODE -eq 1 ]; then
-            echo "❌ Terraform plan failed with error"
+            echo "Terraform plan failed with error"
             exit 1
           fi
           exit 0
 
-      # ── 8. Upload tfplan artifact ─────────────────────────────────────────
       - name: Upload Terraform plan artifact
         uses: actions/upload-artifact@v4
         with:
@@ -172,12 +155,10 @@ jobs:
           path: Infra/tfplan
           retention-days: 1
 
-      # ── 9. Terraform Apply ────────────────────────────────────────────────
       - name: Terraform Apply
         working-directory: Infra
         run: terraform apply tfplan -no-color
 
-      # ── 10. Show outputs ──────────────────────────────────────────────────
       - name: Terraform Output
         working-directory: Infra
         run: terraform output -no-color

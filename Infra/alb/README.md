@@ -1,4 +1,3 @@
-<!-- BEGIN_TF_DOCS -->
 ## Requirements
 
 | Name | Version |
@@ -42,4 +41,3 @@ No modules.
 |------|-------------|
 | <a name="output_alb_dns_name"></a> [alb\_dns\_name](#output\_alb\_dns\_name) | The public DNS name of the ALB. |
 | <a name="output_target_group_arn"></a> [target\_group\_arn](#output\_target\_group\_arn) | The ARN of the target group to be used by the ECS service. |
-<!-- END_TF_DOCS -->

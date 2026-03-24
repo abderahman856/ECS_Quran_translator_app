@@ -5,11 +5,9 @@ require("dotenv").config();
 
 const app = express();
 
-/**
- * ENVIRONMENT VARIABLES
- */
+
 const PORT = process.env.PORT || 5000;
-const HOST = "0.0.0.0"; // IMPORTANT for Docker/ECS
+const HOST = "0.0.0.0"; 
 const QURAN_API_BASE =
   process.env.QURAN_API_BASE_URL ||
   "https://api.alquran.cloud/v1/ayah";
@@ -23,18 +21,12 @@ app.use(cors({
 }));
 app.use(express.json());
 
-/**
- * ROOT ROUTE
- * ALB default health check path is "/"
- */
+
 app.get("/", (req, res) => {
   res.status(200).send("Backend is healthy");
 });
 
-/**
- * HEALTH CHECK ROUTE
- * Recommended explicit health endpoint
- */
+
 app.get("/health", (req, res) => {
   res.status(200).json({
     status: "ok",
@@ -43,9 +35,7 @@ app.get("/health", (req, res) => {
   });
 });
 
-/**
- * GET /api/ayah?surah=2&ayah=255
- */
+
 app.get("/api/ayah", async (req, res) => {
   try {
     const { surah, ayah } = req.query;
@@ -138,10 +128,7 @@ app.get("/api/ayah", async (req, res) => {
   }
 });
 
-/**
- * START SERVER
- * MUST bind to 0.0.0.0 for ECS/ALB
- */
+
 app.listen(PORT, HOST, () => {
   console.log(`Backend server is running on ${HOST}:${PORT}`);
   console.log(`Using Quran API Base: ${QURAN_API_BASE}`);

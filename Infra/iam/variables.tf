@@ -5,6 +5,6 @@ variable "project_name" {
 }
 
 variable "environment" {
-  description = "The deployment environment (dev, staging, prod) to ensure unique naming across accounts."
+  description = "The deployment environment."
   type        = string
 }

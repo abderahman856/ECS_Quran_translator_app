@@ -1,4 +1,3 @@
-<!-- BEGIN_TF_DOCS -->
 ## Requirements
 
 | Name | Version |
@@ -44,4 +43,3 @@ No modules.
 |------|-------------|
 | <a name="output_cloudfront_distribution_arn"></a> [cloudfront\_distribution\_arn](#output\_cloudfront\_distribution\_arn) | The ARN of the CloudFront distribution (used by the S3 bucket policy). |
 | <a name="output_cloudfront_domain_name"></a> [cloudfront\_domain\_name](#output\_cloudfront\_domain\_name) | The CloudFront distribution domain name (point your Cloudflare CNAME here). |
-<!-- END_TF_DOCS -->

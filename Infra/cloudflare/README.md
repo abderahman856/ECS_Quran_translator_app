@@ -1,4 +1,3 @@
-<!-- BEGIN_TF_DOCS -->
 ## Requirements
 
 | Name | Version |
@@ -43,4 +42,3 @@ No modules.
 | <a name="output_api_record_hostname"></a> [api\_record\_hostname](#output\_api\_record\_hostname) | The api subdomain CNAME record hostname. |
 | <a name="output_root_record_hostname"></a> [root\_record\_hostname](#output\_root\_record\_hostname) | The root domain CNAME record hostname. |
 | <a name="output_www_record_hostname"></a> [www\_record\_hostname](#output\_www\_record\_hostname) | The www subdomain CNAME record hostname. |
-<!-- END_TF_DOCS -->

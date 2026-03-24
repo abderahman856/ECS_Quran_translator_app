@@ -1,4 +1,3 @@
-<!-- BEGIN_TF_DOCS -->
 ## Requirements
 
 | Name | Version |
@@ -46,4 +45,3 @@ No modules.
 | <a name="output_bucket_id"></a> [bucket\_id](#output\_bucket\_id) | The ID of the frontend S3 bucket. |
 | <a name="output_bucket_regional_domain_name"></a> [bucket\_regional\_domain\_name](#output\_bucket\_regional\_domain\_name) | The regional domain name of the S3 bucket. Used by CloudFront as the origin. |
 | <a name="output_logs_bucket_id"></a> [logs\_bucket\_id](#output\_logs\_bucket\_id) | The ID of the S3 access logs bucket. |
-<!-- END_TF_DOCS -->

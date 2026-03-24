@@ -1,4 +1,3 @@
-<!-- BEGIN_TF_DOCS -->
 ## Requirements
 
 | Name | Version |
@@ -37,4 +36,3 @@ No modules.
 |------|-------------|
 | <a name="output_ecs_task_execution_role_arn"></a> [ecs\_task\_execution\_role\_arn](#output\_ecs\_task\_execution\_role\_arn) | The ARN of the ECS Task Execution Role (used for infrastructure/system tasks) |
 | <a name="output_ecs_task_role_arn"></a> [ecs\_task\_role\_arn](#output\_ecs\_task\_role\_arn) | The ARN of the ECS Task Role (used for application-level AWS permissions) |
-<!-- END_TF_DOCS -->

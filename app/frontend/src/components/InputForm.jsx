@@ -18,7 +18,6 @@ export const InputForm = ({ onSubmit, loading }) => {
       className="mt-4 rounded-3xl bg-slate-950/50 p-6 shadow-xl shadow-indigo-900/30 ring-1 ring-white/10 sm:p-8"
     >
       <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
-        {/* Surah input */}
         <div className="flex flex-col space-y-1.5">
           <label
             htmlFor="surah"
@@ -40,7 +39,6 @@ export const InputForm = ({ onSubmit, loading }) => {
           </p>
         </div>
 
-        {/* Ayah input */}
         <div className="flex flex-col space-y-1.5">
           <label
             htmlFor="ayah"
@@ -63,7 +61,6 @@ export const InputForm = ({ onSubmit, loading }) => {
         </div>
       </div>
 
-      {/* Submit button */}
       <motion.button
         type="submit"
         disabled={loading || !surah || !ayah}

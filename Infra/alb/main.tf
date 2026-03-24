@@ -1,14 +1,10 @@
-# Infra/alb/main.tf
-
-#trivy:ignore:AWS-0053
 resource "aws_lb" "main" {
   name                       = "${var.project_name}-${var.environment}-alb"
   internal                   = false
   load_balancer_type         = "application"
   security_groups            = [var.alb_sg_id]
   subnets                    = var.public_subnet_ids
-  drop_invalid_header_fields = true # fixes AWS-0052
-
+  drop_invalid_header_fields = true 
   tags = {
     Name        = "${var.project_name}-alb"
     Environment = var.environment

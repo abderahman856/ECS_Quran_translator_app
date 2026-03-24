@@ -1,5 +1,5 @@
 variable "cloudflare_zone_id" {
-  description = "Your Cloudflare Zone ID."
+  description = "My Cloudflare Zone ID."
 }
 
 variable "cloudfront_domain_name" {
@@ -23,7 +23,7 @@ variable "acm_validation_record_value" {
 }
 
 variable "dns_record_name" {
-  description = "Root DNS record name. Use 'dev' for dev, '@' for prod."
+  description = "Root DNS record name. I Use 'dev' for dev, '@' for prod."
   type        = string
   default     = "@"
 }

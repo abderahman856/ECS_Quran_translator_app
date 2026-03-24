@@ -1,19 +1,12 @@
-# .github/workflows/frontend.yml
-# Triggers:
-# 1. Auto — push to main that changes app/frontend/**
-# 2. Manual — workflow_dispatch → choose environment
-
 name: Frontend Deploy
 
 on:
-  # ── Auto trigger ─────────────────────────────────────────────────────────
   push:
     branches:
       - main
     paths:
       - 'app/frontend/**'
 
-  # ── Manual trigger ────────────────────────────────────────────────────────
   workflow_dispatch:
     inputs:
       environment:
@@ -34,18 +27,15 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # ── 1. Checkout code ─────────────────────────────────────────────────
       - name: Checkout code
         uses: actions/checkout@v4
 
-      # ── 2. Configure AWS via OIDC ─────────────────────────────────────────
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
           role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
           aws-region: ${{ secrets.AWS_REGION }}
 
-      # ── 3. Setup Node.js ──────────────────────────────────────────────────
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
@@ -53,12 +43,10 @@ jobs:
           cache: 'npm'
           cache-dependency-path: app/frontend/package-lock.json
 
-      # ── 4. Install dependencies ───────────────────────────────────────────
       - name: Install dependencies
         working-directory: app/frontend
         run: npm ci
 
-      # ── 5. Set environment variables ──────────────────────────────────────
       - name: Set environment config
         id: config
         run: |
@@ -78,14 +66,12 @@ jobs:
 
           echo "environment=$ENV" >> $GITHUB_OUTPUT
 
-      # ── 6. Build frontend ─────────────────────────────────────────────────
       - name: Build frontend
         working-directory: app/frontend
         env:
           VITE_API_URL: ${{ steps.config.outputs.vite_api_url }}
         run: npm run build
 
-      # ── 7. Sync to S3 ─────────────────────────────────────────────────────
       - name: Sync to S3
         run: |
           aws s3 sync app/frontend/dist s3://${{ steps.config.outputs.s3_bucket }} \
@@ -97,9 +83,8 @@ jobs:
           aws s3 cp app/frontend/dist/index.html s3://${{ steps.config.outputs.s3_bucket }}/index.html \
             --cache-control "no-cache, no-store, must-revalidate"
 
-          echo "✅ Synced to s3://${{ steps.config.outputs.s3_bucket }}"
+          echo "Synced to s3://${{ steps.config.outputs.s3_bucket }}"
 
-      # ── 8. Invalidate CloudFront ──────────────────────────────────────────
       - name: Invalidate CloudFront cache
         run: |
           INVALIDATION_ID=$(aws cloudfront create-invalidation \
@@ -108,11 +93,10 @@ jobs:
             --query 'Invalidation.Id' \
             --output text)
 
-          echo "✅ CloudFront invalidation created: $INVALIDATION_ID"
+          echo "CloudFront invalidation created: $INVALIDATION_ID"
           echo "⏳ Waiting 20s for invalidation to propagate..."
           sleep 20
 
-      # ── 9. Post deploy health check ───────────────────────────────────────
       - name: Frontend health check
         run: |
           FRONTEND_URL="${{ steps.config.outputs.frontend_url }}"
@@ -125,27 +109,26 @@ jobs:
             echo "Attempt $i — HTTP $STATUS"
 
             if [ "$STATUS" == "200" ]; then
-              echo "✅ Frontend is live!"
+              echo "Frontend is live!"
               exit 0
             fi
 
-            echo "⏳ Not ready yet, retrying in 15s..."
+            echo "Not ready yet, retrying in 15s..."
             sleep 15
           done
 
-          echo "❌ Frontend health check failed after 5 attempts"
+          echo "Frontend health check failed after 5 attempts"
           exit 1
 
-      # ── 10. Summary ───────────────────────────────────────────────────────
       - name: Deployment summary
         run: |
           ENV="${{ steps.config.outputs.environment }}"
-          echo "## 🌐 Frontend Deployment Summary" >> $GITHUB_STEP_SUMMARY
+          echo "## Frontend Deployment Summary" >> $GITHUB_STEP_SUMMARY
           echo "| Field | Value |" >> $GITHUB_STEP_SUMMARY
           echo "|-------|-------|" >> $GITHUB_STEP_SUMMARY
           echo "| Environment | $ENV |" >> $GITHUB_STEP_SUMMARY
           echo "| S3 Bucket | ${{ steps.config.outputs.s3_bucket }} |" >> $GITHUB_STEP_SUMMARY
           echo "| API URL | ${{ steps.config.outputs.vite_api_url }} |" >> $GITHUB_STEP_SUMMARY
-          echo "| Frontend URL | ${{ steps.config.outputs.frontend_url }} ✅ |" >> $GITHUB_STEP_SUMMARY
+          echo "| Frontend URL | ${{ steps.config.outputs.frontend_url }} |" >> $GITHUB_STEP_SUMMARY
           echo "| CloudFront ID | ${{ steps.config.outputs.cloudfront_id }} |" >> $GITHUB_STEP_SUMMARY
           echo "| Commit | ${{ github.sha }} |" >> $GITHUB_STEP_SUMMARY

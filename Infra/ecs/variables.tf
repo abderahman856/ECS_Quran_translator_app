@@ -4,24 +4,24 @@ variable "project_name" {
 }
 
 variable "environment" {
-  description = "The deployment environment (e.g., dev, prod)."
+  description = "The deployment environment."
   type        = string
 }
 
 variable "aws_region" {
-  description = "The AWS region where resources are deployed (used for CloudWatch log config)."
+  description = "The AWS region where resources are deployed."
   type        = string
   default     = "us-east-1"
 }
 
 variable "cpu" {
-  description = "The number of CPU units used by the task (e.g., 256 for 0.25 vCPU)."
+  description = "The number of CPU units used by the task."
   type        = string
   default     = "256"
 }
 
 variable "memory" {
-  description = "The amount of memory (in MiB) used by the task (e.g., 512)."
+  description = "The amount of memory used by the task."
   type        = string
   default     = "512"
 }

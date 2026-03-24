@@ -1,6 +1,6 @@
 
 variable "project_name" {
-  description = "The name of the project. Used to name the state bucket."
+  description = "The name of the project."
   type        = string
   default     = "quran-app"
 }
