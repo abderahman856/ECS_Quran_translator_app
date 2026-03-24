@@ -271,7 +271,7 @@ docker-compose up --build
 
 ---
 
-### 🩺 Health Check
+###  Health Check
 
 ```bash
 curl http://localhost:5000/health
