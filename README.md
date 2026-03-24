@@ -220,37 +220,262 @@ quran-translator-app/
 *  **Modular Infrastructure Design**
   Terraform modules ensure reusable and maintainable infrastructure.
 
-💻 Local Development
+# 💻 **Local Development**
 
-This section enables contributors and reviewers to quickly run the application in a local environment with minimal setup.
+Run the application locally with a production-like setup using containers.
 
-📦 Prerequisites
-Docker
-Docker Compose
-Node.js (optional for manual runs)
-⚙️ Setup Instructions
-1. Clone the Repository
+---
+
+## 🔧 **Prerequisites**
+
+* Docker
+* Docker Compose
+* Node.js (optional)
+
+---
+
+## ⚙️ **Setup Guide**
+
+### 📥 1. Clone Repository
+
+```bash
 git clone https://github.com/your-username/quran-translator-app.git
 cd quran-translator-app
-2. Configure Environment Variables
+```
 
-Create a .env file inside the backend:
+---
 
+### 🔐 2. Configure Environment Variables
+
+Create a `.env` file inside `app/backend`:
+
+```env
 PORT=5000
 QURAN_API_BASE_URL=https://api.alquran.cloud/v1/ayah
-3. Run with Docker Compose
+```
+
+---
+
+### ▶️ 3. Run Application
+
+```bash
 docker-compose up --build
-4. Access the Application
-Frontend → http://localhost:3000
-Backend → http://localhost:5000
-🧪 Health Check
+```
+
+---
+
+### 🌐 4. Access Services
+
+* Frontend → http://localhost:3000
+* Backend → http://localhost:5000
+
+---
+
+### 🩺 Health Check
+
+```bash
 curl http://localhost:5000/health
-🛠️ Alternative (Without Docker)
-Backend
-cd app/backend
-npm install
-npm run dev
-Frontend
-cd app/frontend
-npm install
+```
+
+---
+
+# 📸 **CI/CD Pipeline Execution (Dev & Prod)**
+
+This section showcases real pipeline executions for both environments.
+
+---
+
+## 🔁 **Development Environment**
+
+### 🏗️ Build & Push Image
+
+![Build Image](docs/CI_CD_pipelines/dev_environment/build_push_image.jpg)
+
+---
+
+### 🚀 Deploy Frontend & Backend
+
+![Deploy](docs/CI_CD_pipelines/dev_environment/deploy_frontend_UI.jpg)
+
+---
+
+### 🧹 Destroy Infrastructure
+
+![Destroy](docs/CI_CD_pipelines/dev_environment/destroy_plan.jpg)
+
+---
+
+### 📋 Terraform Apply
+
+![TF Apply](docs/CI_CD_pipelines/dev_environment/tf_apply.jpg)
+
+---
+
+### 🔍 Terraform Destroy
+
+![TF Destroy](docs/CI_CD_pipelines/dev_environment/tf_destroy.jpg)
+
+---
+
+## 🌍 **Production Environment**
+
+### 🏗️ Build & Push Image
+
+![Build Image](docs/CI_CD_pipelines/prod_environment/build_push_image.jpg)
+
+---
+
+### 🚀 Deploy Application
+
+![Deploy](docs/CI_CD_pipelines/prod_environment/deploy_frontend.jpg)
+
+---
+
+### 📋 Terraform Apply
+
+![TF Apply](docs/CI_CD_pipelines/prod_environment/tf_apply.jpg)
+
+---
+
+### 🧹 Terraform Destroy
+
+![TF Destroy](docs/CI_CD_pipelines/prod_environment/tf_destroy.jpg)
+
+---
+
+### 🌐 Full Environment Flow
+
+![Full Flow](docs/CI_CD_pipelines/prod_environment/tf_plan_for_both_envs.jpg)
+
+---
+
+# 🎯 **Learning Outcomes**
+
+This project demonstrates hands-on experience in building and deploying modern cloud-native applications.
+
+---
+
+## 🚀 **CI/CD & Automation**
+
+* Designed end-to-end pipelines using GitHub Actions
+* Automated build, test, and deployment workflows
+* Managed separate pipelines for app and infrastructure
+
+---
+
+## 🐳 **Containerization**
+
+* Built optimized multi-stage Docker images
+* Managed multi-container applications
+* Implemented production-ready container practices
+
+---
+
+## ☁️ **Cloud & Infrastructure**
+
+* Deployed applications on AWS ECS Fargate
+* Configured ALB, networking, and security groups
+* Designed scalable and fault-tolerant architecture
+
+---
+
+## 🏗️ **Infrastructure as Code**
+
+* Built modular Terraform architecture
+* Managed remote state and environments
+* Applied real-world infrastructure patterns
+
+---
+
+## 🌐 **Networking & Delivery**
+
+* Integrated DNS and CDN via Cloudflare
+* Configured HTTPS and secure routing
+* Understood full request lifecycle
+
+---
+
+## 📊 **Monitoring & Debugging**
+
+* Used CloudWatch for logs and metrics
+* Implemented health checks and alerts
+* Debugged real-world deployment issues
+
+---
+
+# 👨‍💻 **Author**
+
+**Baashe Saeed**
+Aspiring DevOps Engineer
+
+---
+
+## 🔗 **Connect**
+
+* GitHub: https://github.com/your-username
+* LinkedIn: https://linkedin.com/in/your-profile
+
+---
+
+## 💡 **About**
+
+This project represents a full DevOps journey:
+
+```
+Development → Docker → CI/CD → Terraform → AWS → Monitoring
+```
+
+Focused on building **production-ready, scalable systems**.
+
+---
+
+# 🤝 **Contributing**
+
+Contributions are welcome and appreciated!
+
+---
+
+## 📌 **How to Contribute**
+
+1. Fork the repository
+2. Create a new branch
+
+```bash
+git checkout -b feature/your-feature-name
+```
+
+3. Make your changes
+4. Commit your work
+
+```bash
+git commit -m "Add new feature"
+```
+
+5. Push to your branch
+
+```bash
+git push origin feature/your-feature-name
+```
+
+6. Open a Pull Request
+
+---
+
+## ✅ **Guidelines**
+
+* Follow clean and readable code practices
+* Keep commits meaningful
+* Test your changes before submitting
+* Document any new features
+
+---
+
+## 💬 **Suggestions**
+
+If you have ideas for improvements, feel free to open an issue.
+
+---
+
+🚀 *Let’s build, improve, and scale together.*
+
 npm start
