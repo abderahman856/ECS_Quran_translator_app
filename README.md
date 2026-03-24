@@ -154,3 +154,72 @@ quran-translator-app/
 ├── .pre-commit-config.yaml            
 └── README.md                          
 ```
+
+## Features
+
+The application provides both user-facing functionality and production-grade infrastructure capabilities.
+
+### Application Features
+
+*  **Search Quran Verses**
+  Users can retrieve Quran verses by entering **Surah number** and **Ayah number**.
+
+*  **Real-Time Translation Fetching**
+  Fetches translation data dynamically from an external Quran API.
+
+*  **Fast and Responsive UI**
+  Built with React to ensure smooth and interactive user experience.
+
+*  **Simple and Intuitive Workflow**
+  Minimal input required to get instant results.
+
+---
+
+### DevOps & Infrastructure Features
+
+*  **Containerized Architecture**
+  Frontend and backend are packaged as Docker containers.
+
+*  **Serverless Container Deployment**
+  Deployed on AWS ECS Fargate without managing servers.
+
+*  **Load Balancing**
+  Application Load Balancer distributes traffic efficiently.
+
+*  **Secure HTTPS Communication**
+  SSL/TLS enabled using AWS Certificate Manager.
+
+*  **Container Registry Integration**
+  Docker images are stored and managed in Amazon ECR.
+
+*  **Centralized Logging & Monitoring**
+  CloudWatch collects logs and metrics for observability.
+
+*  **Infrastructure as Code (IaC)**
+  Entire infrastructure is provisioned using Terraform modules.
+
+*  **CI/CD Automation**
+  GitHub Actions pipelines automate build, push, and deployment workflows.
+
+*  **Secure Authentication (OIDC)**
+  Eliminates static credentials by using OpenID Connect for AWS access.
+
+*  **Custom Domain & DNS Management**
+  Managed via Cloudflare with optional CDN capabilities.
+
+---
+
+### Operational Features
+
+*  **Scalable Architecture**
+  Automatically handles traffic scaling using ECS and ALB.
+
+*  **Network Isolation**
+  Application runs inside a VPC with controlled access via Security Groups.
+
+*  **Health Checks & Self-Healing**
+  ECS and ALB monitor container health and replace unhealthy tasks.
+
+*  **Modular Infrastructure Design**
+  Terraform modules ensure reusable and maintainable infrastructure.
+
