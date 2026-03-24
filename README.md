@@ -222,7 +222,7 @@ quran-translator-app/
 
 #  **Local Development**
 
-Run the application locally with a production-like setup using containers.
+Run the application locally with a production_like setup using containers.
 
 ---
 
