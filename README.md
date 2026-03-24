@@ -16,8 +16,7 @@ This project demonstrates how to design and deploy a scalable and production-rea
 * [Repository Structure](#repository-structure)
 * [Features](#features)
 * [Local Development](#local-development)
-* [Future Improvements](#future-improvements)
-* [Learning Outcomes](#learning-outcomes)
+* [Contributing]()
 * [Author](#author)
 
 ## Live Demo
@@ -220,13 +219,13 @@ quran-translator-app/
 *  **Modular Infrastructure Design**
   Terraform modules ensure reusable and maintainable infrastructure.
 
-# 💻 **Local Development**
+#  **Local Development**
 
 Run the application locally with a production-like setup using containers.
 
 ---
 
-## 🔧 **Prerequisites**
+##  **Prerequisites**
 
 * Docker
 * Docker Compose
@@ -234,9 +233,9 @@ Run the application locally with a production-like setup using containers.
 
 ---
 
-## ⚙️ **Setup Guide**
+##  **Setup Guide**
 
-### 📥 1. Clone Repository
+###  1. Clone Repository
 
 ```bash
 git clone https://github.com/your-username/quran-translator-app.git
@@ -245,7 +244,7 @@ cd quran-translator-app
 
 ---
 
-### 🔐 2. Configure Environment Variables
+###  2. Configure Environment Variables
 
 Create a `.env` file inside `app/backend`:
 
@@ -256,7 +255,7 @@ QURAN_API_BASE_URL=https://api.alquran.cloud/v1/ayah
 
 ---
 
-### ▶️ 3. Run Application
+###  3. Run Application
 
 ```bash
 docker-compose up --build
@@ -264,7 +263,7 @@ docker-compose up --build
 
 ---
 
-### 🌐 4. Access Services
+###  4. Access Services
 
 * Frontend → http://localhost:3000
 * Backend → http://localhost:5000
@@ -279,99 +278,90 @@ curl http://localhost:5000/health
 
 ---
 
-# 📸 **CI/CD Pipeline Execution (Dev & Prod)**
-
-This section showcases real pipeline executions for both environments.
-
+#  **CI/CD Pipeline Execution (Dev & Prod)**
 ---
 
-## 🔁 **Development Environment**
+##  **Development Environment**
 
-### 🏗️ Build & Push Image
+###  Build & Push Image
 
 ![Build Image](docs/CI_CD_pipelines/dev_environment/build_push_image.jpg)
 
 ---
 
-### 🚀 Deploy Frontend & Backend
+###  Deploy Frontend & Backend
 
 ![Deploy](docs/CI_CD_pipelines/dev_environment/deploy_frontend_UI.jpg)
 
 ---
 
-### 🧹 Destroy Infrastructure
+###  Destroy Infrastructure
 
 ![Destroy](docs/CI_CD_pipelines/dev_environment/destroy_plan.jpg)
 
 ---
 
-### 📋 Terraform Apply
+###  Terraform Apply
 
 ![TF Apply](docs/CI_CD_pipelines/dev_environment/tf_apply.jpg)
 
 ---
 
-### 🔍 Terraform Destroy
+###  Terraform Destroy
 
 ![TF Destroy](docs/CI_CD_pipelines/dev_environment/tf_destroy.jpg)
 
 ---
 
-## 🌍 **Production Environment**
+##  **Production Environment**
 
-### 🏗️ Build & Push Image
+###  Build & Push Image
 
 ![Build Image](docs/CI_CD_pipelines/prod_environment/build_push_image.jpg)
 
 ---
 
-### 🚀 Deploy Application
+###  Deploy Application
 
 ![Deploy](docs/CI_CD_pipelines/prod_environment/deploy_frontend.jpg)
 
 ---
 
-### 📋 Terraform Apply
+###  Terraform Apply
 
 ![TF Apply](docs/CI_CD_pipelines/prod_environment/tf_apply.jpg)
 
 ---
 
-### 🧹 Terraform Destroy
+###  Terraform Destroy
 
 ![TF Destroy](docs/CI_CD_pipelines/prod_environment/tf_destroy.jpg)
 
 ---
 
-### 🌐 Full Environment Flow
-
-![Full Flow](docs/CI_CD_pipelines/prod_environment/tf_plan_for_both_envs.jpg)
-
----
-
-# 🎯 **Learning Outcomes**
+#  **Learning Outcomes**
 
 This project demonstrates hands-on experience in building and deploying modern cloud-native applications.
 
 ---
 
-## 🚀 **CI/CD & Automation**
+##  **CI/CD & Automation**
 
-* Designed end-to-end pipelines using GitHub Actions
+* Designed end_to_end pipelines using GitHub Actions
 * Automated build, test, and deployment workflows
 * Managed separate pipelines for app and infrastructure
 
 ---
 
-## 🐳 **Containerization**
+##  **Containerization**
 
-* Built optimized multi-stage Docker images
-* Managed multi-container applications
+* Built optimized multi_stage Docker images
+* Managed multi_container applications
 * Implemented production-ready container practices
 
 ---
 
-## ☁️ **Cloud & Infrastructure**
+##  **Cloud & Infrastructure**
 
 * Deployed applications on AWS ECS Fargate
 * Configured ALB, networking, and security groups
@@ -379,15 +369,15 @@ This project demonstrates hands-on experience in building and deploying modern c
 
 ---
 
-## 🏗️ **Infrastructure as Code**
+##  **Infrastructure as Code**
 
 * Built modular Terraform architecture
 * Managed remote state and environments
-* Applied real-world infrastructure patterns
+* Applied real world infrastructure patterns
 
 ---
 
-## 🌐 **Networking & Delivery**
+##  **Networking & Delivery**
 
 * Integrated DNS and CDN via Cloudflare
 * Configured HTTPS and secure routing
@@ -395,7 +385,7 @@ This project demonstrates hands-on experience in building and deploying modern c
 
 ---
 
-## 📊 **Monitoring & Debugging**
+##  **Monitoring & Debugging**
 
 * Used CloudWatch for logs and metrics
 * Implemented health checks and alerts
@@ -403,21 +393,21 @@ This project demonstrates hands-on experience in building and deploying modern c
 
 ---
 
-# 👨‍💻 **Author**
+#  **Author**
 
-**Baashe Saeed**
-Aspiring DevOps Engineer
-
----
-
-## 🔗 **Connect**
-
-* GitHub: https://github.com/your-username
-* LinkedIn: https://linkedin.com/in/your-profile
+**Abdurahman Saeed**
+ DevOps Engineer
 
 ---
 
-## 💡 **About**
+##  **Connect**
+
+* GitHub: https://https://github.com/abderahman856
+* LinkedIn: https://https://www.linkedin.com/in/abdurahman12/
+
+---
+
+##  **About**
 
 This project represents a full DevOps journey:
 
@@ -429,13 +419,13 @@ Focused on building **production-ready, scalable systems**.
 
 ---
 
-# 🤝 **Contributing**
+#  **Contributing**
 
 Contributions are welcome and appreciated!
 
 ---
 
-## 📌 **How to Contribute**
+##  **How to Contribute**
 
 1. Fork the repository
 2. Create a new branch
@@ -459,23 +449,6 @@ git push origin feature/your-feature-name
 
 6. Open a Pull Request
 
----
 
-## ✅ **Guidelines**
 
-* Follow clean and readable code practices
-* Keep commits meaningful
-* Test your changes before submitting
-* Document any new features
 
----
-
-## 💬 **Suggestions**
-
-If you have ideas for improvements, feel free to open an issue.
-
----
-
-🚀 *Let’s build, improve, and scale together.*
-
-npm start
