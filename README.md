@@ -239,8 +239,8 @@ Run the application locally with a production_like setup using containers.
 ###  1. Clone Repository
 
 ```bash
-git clone https://github.com/your-username/quran-translator-app.git
-cd quran-translator-app
+git clone https://github.com/abderahman856/ECS_Quran_translator_app.git
+cd ECS_Quran_translator_app
 ```
 
 ---
