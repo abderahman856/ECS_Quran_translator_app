@@ -245,20 +245,10 @@ cd ECS_Quran_translator_app
 
 ---
 
-###  2. Configure Environment Variables
-
-Create a `.env` file inside `app/backend`:
-
-```env
-PORT=5000
-QURAN_API_BASE_URL=https://api.alquran.cloud/v1/ayah
-```
-
----
-
-###  3. Run Application
+###  2. Run Application
 
 ```bash
+cd app
 docker-compose up --build
 ```
 
