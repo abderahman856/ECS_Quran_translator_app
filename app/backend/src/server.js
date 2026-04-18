@@ -14,6 +14,7 @@ const QURAN_API_BASE =
 
 app.use(cors({
   origin: [
+    'http://localhost:3000',
     'https://dev.baashe.uk',
     'https://baashe.uk',
     'http://localhost:5173'
